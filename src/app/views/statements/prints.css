@@ -1,0 +1,5 @@
+@media print {
+  .changeHeadButton {
+    display: none !important;
+  }
+}

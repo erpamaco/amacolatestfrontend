@@ -1,0 +1,62 @@
+/* body {
+  position: relative;
+}
+p {
+  margin: 20px 0;
+  page-break-inside: avoid;
+  position: relative;
+} */
+
+/* div.onepage {page-break-after: always; } */
+
+@media print {
+  .printInv{
+    width: 316px !important;
+  }
+  .printPoInv{
+    width: 552px !important;
+  }
+  .printPoInvv{
+    width: 530px !important;
+  }
+}
+
+.hidecell {
+  /* border-bottom: 1px solid white !important; */
+  border-top: 1px solid white !important;
+  border-left: 1px solid rgb(204, 204, 204) !important;
+  border-right: 1px solid rgb(204, 204, 204) !important;
+}
+.changeYYY {
+  color: red !important;
+}
+@media print {
+  .showPageNumber {
+    display: block !important;
+  }
+  .annexturee{
+    color: red;
+    page-break-inside: avoid;
+  }
+
+  .movetable{
+    position: relative !important;
+    /* top :  */
+  }
+
+  .bankHead{
+    visibility: none !important;
+    background-color: transparent !important;
+  }
+  .printPoInv{
+    width: 560px !important;
+  }
+  
+  .printPoInvv{
+    width: 538px !important;
+  }
+  
+  
+}
+
+

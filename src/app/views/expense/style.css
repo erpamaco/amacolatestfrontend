@@ -1,0 +1,12 @@
+.containerrr {
+    display: flex;
+    flex-direction: row;
+}
+.itemrrr {
+    display: flex;
+    flex-shrink: 0;
+}
+.dividerrr {
+    display: flex;
+    flex: 1;
+}

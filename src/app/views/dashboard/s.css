@@ -1,0 +1,31 @@
+/* .changeDateColor .MuiSelect-select.MuiSelect-select {
+  color: white;
+  border-bottom: 2px solid white;
+}
+.changeDateColor .MuiSelect-select.MuiSelect-select :hover {
+  color: white;
+  border-bottom: 2px solid white;
+}
+.changeDateColor .MuiSelect-icon {
+  color: white;
+}
+*/
+
+.changeDateColor{
+  /* margin-top: -100px; */
+  position: relative;
+  top:-13px;
+}
+.changeDateColor .MuiInputBase-root {
+  border-bottom: 1px solid white;
+}
+
+.changeDateColor .MuiSvgIcon-root {
+  color: white !important;
+}
+.changeDateColor .MuiInputBase-input {
+  color: white !important;
+}
+.changeDateColor .MuiInputLabel-animated {
+  color: white !important;
+}

@@ -1,0 +1,199 @@
+.slno {
+  -ms-flex: 0 0 100px;
+  flex: 0 0 100px;
+  text-align: center;
+  border: 1px solid #ccc;
+  word-break: break-word;
+  font-family: Calibri;
+  font-size: 16px;
+  padding: 13px;
+}
+.catCol {
+  -ms-flex: 0 0 200px;
+  flex: 0 0 200px;
+  text-align: center;
+  border: 1px solid #ccc;
+  word-break: break-word;
+  font-family: Calibri;
+  font-size: 16px;
+  padding: 12px;
+  text-transform: capitalize;
+}
+.subCol {
+  -ms-flex: 0 0 200px;
+  flex: 0 0 200px;
+  text-transform: capitalize;
+  text-align: center;
+  border: 1px solid #ccc;
+  word-break: break-word;
+  font-family: Calibri;
+  font-size: 16px;
+  padding: 14px;
+}
+.prodCol {
+  -ms-flex: 0 0 300px;
+  width: 547px;
+
+  flex: 0 0 300px;
+  text-transform: capitalize;
+  text-align: center;
+  border: 1px solid #ccc;
+  word-break: break-word;
+  font-family: Calibri;
+  font-size: 16px;
+  padding: 14px;
+}
+.priceCol {
+  -ms-flex: 0 0 100px;
+  flex: 0 0 100px;
+  text-transform: capitalize;
+  text-align: center;
+  border: 1px solid #ccc;
+  word-break: break-word;
+  font-family: Calibri;
+  font-size: 16px;
+  padding: 12px;
+}
+.stockCol {
+  -ms-flex: 0 0 100px;
+  flex: 0 0 100px;
+  text-transform: capitalize;
+  text-align: center;
+  border: 1px solid #ccc;
+  word-break: break-word;
+  font-family: Calibri;
+  font-size: 16px;
+  padding: 12px;
+}
+.stockVCol {
+  -ms-flex: 0 0 150px;
+  flex: 0 0 150px;
+  text-transform: capitalize;
+  text-align: center;
+  border: 1px solid #ccc;
+  word-break: break-word;
+  font-family: Calibri;
+  font-size: 16px;
+  padding: 12px;
+}
+.slHead {
+  -ms-flex: 0 0 100px;
+  flex: 0 0 100px;
+}
+.catHead {
+  -ms-flex: 0 0 200px;
+  flex: 0 0 200px;
+}
+.subHead {
+  -ms-flex: 0 0 200px;
+  flex: 0 0 200px;
+}
+.prodHead {
+  -ms-flex: 0 0 300px;
+  flex: 0 0 300px;
+}
+.priceHead {
+  -ms-flex: 0 0 150px;
+  flex: 0 0 100px;
+}
+.stockHead {
+  -ms-flex: 0 0 150px;
+  flex: 0 0 100px;
+}
+.stockValue {
+  -ms-flex: 0 0 150px;
+  flex: 0 0 150px;
+}
+
+.print-body .row {
+  flex-wrap: nowrap !important;
+}
+
+.prodCol .col {
+  width: 300px !important;
+}
+
+@media print {
+  .print-body .pbdody div {
+    break-inside: avoid;
+    page-break-after: avoid;
+  }
+  .tableBodyStock {
+    padding: 20px !important;
+  }
+  .header,
+  .header-space {
+    height: 110px;
+  }
+  .footer,
+  .footer-space {
+    height: 80px;
+  }
+  .header {
+    position: fixed;
+    top: 10px;
+    display: block !important;
+  }
+  .footer {
+    position: fixed;
+    bottom: 0;
+    display: block !important;
+  }
+}
+.fixHeader .mr-1 {
+  margin-right: -70.6rem !important;
+}
+/* 
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+@media print{
+
+.header, .header-space,
+.footer, .footer-space {
+  height: 100px;
+}
+.header {
+  position: fixed;
+  top: 0;
+
+}
+.footer {
+  position: fixed;
+  bottom: 0;
+  
+}
+@page {
+  margin: 2mm
+}
+
+}
+</style>
+</head>
+<body>
+
+<h2>HTML Table</h2>
+<table>
+<button onclick='window.print()'>print</button>
+  <thead>
+  <tr>
+  <td>
+    <div class="header-space">&nbsp;</div>
+  </td>
+  </tr>
+  </thead>
+  <tbody><tr><td>
+    <div class="content">dsdsadsad...</div>
+  </td></tr></tbody>
+  <tfoot><tr><td>
+    <div class="footer-space">&nbsp;</div>
+  </td></tr></tfoot>
+</table>
+<div class="header">.Header..</div>
+<div  class="footer">..Footer.</div>
+
+</body>
+</html>
+ */
