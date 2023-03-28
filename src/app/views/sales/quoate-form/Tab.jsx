@@ -90,6 +90,15 @@ const CustomerViewer = () => {
         />
 
         <div className="text-right">
+        <Link to={navigatePath+"/Newquoteanalysis2"}>
+            <Button
+              className="py-2"
+              variant="outlined"
+              color="primary"
+            >
+              <Icon>add</Icon> ADD NEW CONTRACTING
+          </Button>&nbsp;&nbsp;
+          </Link>
           <Link to={navigatePath+"/Newquoteanalysis"}>
             <Button
               className="py-2"

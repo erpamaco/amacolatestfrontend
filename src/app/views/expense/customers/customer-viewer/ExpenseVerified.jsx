@@ -83,7 +83,7 @@ const ExpenseVerified = () => {
   const [rowsSelected, setrowsSelected] = React.useState([]);
   const [isAlive, setisAlive] = useState(false);
   const routerHistory = useHistory();
-   const [from_date_exv, setfrom_date_exv] = useState(moment(new Date()).format("YYYY"));
+   const [from_date_exv, setfrom_date_exv] = useState(moment(new Date()).format("MMM YYYY"));
   const [resetuserList, setResetUserList] = useState([]);
   const curr_date = new Date();
   const curr_year = moment(curr_date).format("YYYY");
@@ -116,12 +116,63 @@ localStorage.setItem('dataKeyState_exv', JSON.stringify(datas))
 
 const handleDateChange_Q = (date) => {
   if(localStorage.getItem("dataKeyState_exv")){
+    setfrom_date_exv(moment(date).format("MMM YYYY"));
+    localStorage.setItem("from_date_exv",moment(date).format("MMM YYYY"));
+    setexpenseList(resetuserList)
+
+    const datas = resetuserList.filter(
+      (obj) =>
+        new Date(moment(obj.paid_date).format('MMM YYYY')).getTime() == new Date(moment(date).format("MMM YYYY")).getTime() 
+        // new Date(obj.issue_date).getTime() <= new Date(to_date).getTime()
+    );
+    setexpenseList(datas);
+    localStorage.setItem('dataKeyState_exv', JSON.stringify(datas))
+    
+  }else{
+    setfrom_date_exv(moment(date).format("MMM YYYY"));
+    localStorage.setItem("from_date_exv",moment(date).format("MMM YYYY"));
+
+    const datas = resetuserList.filter(
+      (obj) =>
+        new Date(moment(obj.paid_date).format('MMM YYYY')).getTime() == new Date(moment(date).format("MMM YYYY")).getTime() 
+        // new Date(obj.issue_date).getTime() <= new Date(to_date).getTime()
+    );
+    setexpenseList(datas);
+    localStorage.setItem('dataKeyState_exv', JSON.stringify(datas))
+    
+
+
+  }
+     
+};
+
+
+const handleDateChange_Q_Year = (date) => {
+  if(localStorage.getItem("dataKeyState_exv")){
     setfrom_date_exv(moment(date).format("YYYY"));
     localStorage.setItem("from_date_exv",moment(date).format("YYYY"));
     setexpenseList(resetuserList)
+
+    const datas = resetuserList.filter(
+      (obj) =>
+        new Date(moment(obj.paid_date).format('YYYY')).getTime() == new Date(moment(date).format("YYYY")).getTime() 
+        // new Date(obj.issue_date).getTime() <= new Date(to_date).getTime()
+    );
+    setexpenseList(datas);
+    localStorage.setItem('dataKeyState_exv', JSON.stringify(datas))
+    
   }else{
     setfrom_date_exv(moment(date).format("YYYY"));
     localStorage.setItem("from_date_exv",moment(date).format("YYYY"));
+
+    const datas = resetuserList.filter(
+      (obj) =>
+        new Date(moment(obj.paid_date).format('YYYY')).getTime() == new Date(moment(date).format("YYYY")).getTime() 
+        // new Date(obj.issue_date).getTime() <= new Date(to_date).getTime()
+    );
+    setexpenseList(datas);
+    localStorage.setItem('dataKeyState_exv', JSON.stringify(datas))
+    
 
 
   }
@@ -642,7 +693,26 @@ const handleDateChange_Q = (date) => {
                       // className="m-2"
                       
                       margin="none"
-                      label="Filter By Paid Date"
+                      label="Filter By Paid Month & Year"
+                      maxDate={new Date()}
+                      inputVariant="outlined"
+                      type="text"
+                      size="small"
+                      autoOk={true}
+                      views={["month","year"]}
+                      value={localStorage.getItem("from_date_exv") ? localStorage.getItem("from_date_exv") : from_date_exv}
+                      format="MMM yyyy"
+                      onChange={handleDateChange_Q}
+                    />
+          </MuiPickersUtilsProvider>&nbsp;&nbsp;
+
+
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+    <KeyboardDatePicker
+                      // className="m-2"
+                      
+                      margin="none"
+                      label="Filter By Year"
                       maxDate={new Date()}
                       inputVariant="outlined"
                       type="text"
@@ -651,17 +721,17 @@ const handleDateChange_Q = (date) => {
                       views={["year"]}
                       value={localStorage.getItem("from_date_exv") ? localStorage.getItem("from_date_exv") : from_date_exv}
                       format="yyyy"
-                      onChange={handleDateChange_Q}
+                      onChange={handleDateChange_Q_Year}
                     />
           </MuiPickersUtilsProvider>&nbsp;&nbsp;
-          <Button
+          {/* <Button
                     color="success"
                     variant="outlined"
                     type="submit"
                     onClick={handleSubmit}
                   >
                     <Icon>search</Icon>&nbsp;&nbsp; Filter
-                  </Button>&nbsp;&nbsp;
+                  </Button>&nbsp;&nbsp; */}
                   {localStorage.getItem("dataKeyState_exv") &&<Button
                     color="error"
                     variant="outlined"

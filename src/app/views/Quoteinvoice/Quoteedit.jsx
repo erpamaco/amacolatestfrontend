@@ -133,6 +133,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [sign, setsign] = useState("");
   const [rfq_no, setrfq_no] = useState("");
   const [subject, setsubject] = useState("");
+  const [subject2, setsubject2] = useState("");
   const [bank_id, setbank_id] = useState("");
   const [quickstatus, setquickstatus] = useState(false);
   let calculateAmount = [];
@@ -1044,6 +1045,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     formData.append("id", id);
     formData.append("sign", sign);
     formData.append("subject", subject ? subject : null);
+    formData.append("subject2", subject2 ? subject2 : null);
     formData.append("rfq_no", rfq_no ? rfq_no : " ");
     formData.append("bank_id", parseInt(bank_id));
     formData.append("notes", JSON.stringify(testArr));
@@ -1265,6 +1267,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         setpayment_terms(data?.sales?.payment_terms);
         setQuote_date(data?.sales?.ps_date);
         setsubject(data?.sales?.subject);
+        setsubject2(data?.sales?.subject2);
 
         setsign(data?.sales?.sign?.id);
         // rfq no
@@ -1774,7 +1777,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               <h5 className="font-normal capitalize">
                 {/* <strong>Subject: </strong>{" "} */}
               </h5>
-              <div>
+              <div className="flex">
                 <TextValidator
                   label="Subject"
                   className="mb-4"
@@ -1784,6 +1787,18 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   style={{ width: 450 }}
                   onChange={(e) => setsubject(e.target.value)}
                   value={subject == "null" || subject == null ? null : subject}
+                  validators={["required"]}
+                  errorMessages={["this field is required"]}
+                />
+                 <TextValidator
+                  label="Quotation Description"
+                  className="mb-4"
+                  type="text"
+                  variant="outlined"
+                  size="small"
+                  style={{ width: 450 ,marginLeft:'10px'}}
+                  onChange={(e) => setsubject2(e.target.value)}
+                  value={subject2 == "null" || subject2 == null ? null : subject2}
                   validators={["required"]}
                   errorMessages={["this field is required"]}
                 />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+// ------this is separate file for contracting quotation
 import {
   Button,
   FormControl,
@@ -1018,6 +1018,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
     formData.append('status', s)
     formData.append('div_id', localStorage.getItem('division'))
     formData.append('qstatus', '1')
+    formData.append('quote_type', 'contracting') 
 
 
     tempItemList.map((answer, i) => {
@@ -1440,7 +1441,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
           <ValidatorForm autocomplete="off" onSubmit={e => { e.preventDefault(); }} onError={(errors) => null}>
             <div className="viewer_actions px-4 flex justify-between">
               <div className="mb-6">
-                <h3 align="left"> CREATE SALES QUOTATION</h3>
+                <h3 align="left"> CREATE CONTRACTING QUOTATION</h3>
               </div>
               <div className="mb-6">
 
@@ -1736,9 +1737,9 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
               <TableHead>
                 <TableRow className="bg-default">
                   <TableCell className="pl-sm-24" style={{ width: 70 }} align="left">S.NO.</TableCell>
-                  <TableCell className="px-0" style={{ width: '50px' }}></TableCell>
-                  <TableCell className="px-0" style={{ width: '150px' }} align="center">ITEM NAME</TableCell>
-                  <TableCell className="px-0" style={{ width: '100px' }} align="center">OUR DESCRIPTION</TableCell>
+                  {/* <TableCell className="px-0" style={{ width: '50px' }}></TableCell> */}
+                  {/* <TableCell className="px-0" style={{ width: '150px' }} align="center">ITEM NAME</TableCell>
+                  <TableCell className="px-0" style={{ width: '100px' }} align="center">OUR DESCRIPTION</TableCell> */}
                   {
                     localStorage.getItem('division') == 3 ? <></> : <>
                       <TableCell className="px-0" style={{ width: '100px' }} align="center">RFQ DESCRIPTION</TableCell>
@@ -1748,7 +1749,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   
                   <TableCell className="px-0" style={{ width: '70px' }} align="center">QUANTITY</TableCell>
                   <TableCell className="px-0" style={{ width: '100px' }} align="center">UOM</TableCell>
-                  <TableCell className="px-0" style={{ width: '150px' }} align="center">PRICE</TableCell>
+                  <TableCell className="px-0" style={{ width: '70px' }} align="center">PRICE</TableCell>
                   <TableCell className="px-0" style={{ width: '80px' }} align="center">MARGIN %</TableCell>
                   <TableCell className="px-0" style={{ width: '80px' }} align="center">DISCOUNT %</TableCell>
                   <TableCell className="px-0" style={{ width: '100px' }} align="center">SELL PRICE</TableCell>
@@ -1825,172 +1826,10 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                       <TableCell className="pl-sm-24 capitalize" align="left" style={{ width: 50 }}>
                         {item.index1}
                       </TableCell>
-                      <TableCell className="px-0" style={{ width: '150px' }}>
-                        {/* <label htmlFor="upload-single-file">
-            
-              <div className="flex items-center">
-                <Icon className="pr-8">cloud_upload</Icon>
-         
-              </div>
-            
-          </label>
-          <input
-            // className="hidden"
-            onChange={(event) => handleFileSelect(event,index)}
-            id="upload-single-file"
-            type="file"
-            name="file"
-            
-          
-    
-            // value={item.files}
-          />
-          <img className="w-48" src={item.src} alt="" /> */}
+                  
 
 
-                        {localStorage.getItem('division') == 3 ? (
-                          <>
-
-                          </>
-
-                        ) : <>
-                          {!item.src ? (<Icon
-                            variant="contained"
-                            component="label"
-                            onChange={(event) => handleFileSelect(event, index)}
-                          >
-                            file_upload
-                            <input
-                              type="file"
-                              hidden
-                            />
-                          </Icon>)
-                            : (<span><Icon color="error" onClick={(event) => deleteFileSelect(event, index)}>close</Icon><img className="w-48" src={item.src} alt="" ></img></span>)
-                          }
-                        </>}
-
-                      </TableCell>
-                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
-                        {/* <TextValidator
-                          label="Item"
-                          onChange={(event) => setProductdescription(event, index)}
-                          type="text"
-                          name="product_id"
-                          fullWidth
-                          variant="outlined"
-                          // inputProps={{style: {textTransform: 'capitalize'}}}
-                          inputProps={{
-                            ref: setRef(index + 'product_id'),
-
-                          }}
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null, invoiceItemList) }}
-
-                          size="small"
-                          value={item.product_id ? item.product_id : ""}
-                          required
-                          // validators={["required"]}
-
-                          // errorMessages={["this field is required"]}
-                          select
-                        >
-                          <MenuItem value="false">
-                            <Icon>add</Icon>Add New
-                          </MenuItem>
-
-                          {proList.filter(obj => obj.div_id == localStorage.getItem('division')).map((item) => (
-
-
-                            <MenuItem value={item.id} >
-                              {item.name}
-                            </MenuItem>
-
-                          ))}
-                        </TextValidator> */}
-                        <Autocomplete
-                          id="filter-demo"
-                          variant="outlined"
-                          style={{ minWidth: 100, maxWidth: '150px' }}
-                          options={proList}
-
-                          value={item.item_name}
-                          getOptionLabel={(option, index) => option?.name ? option?.name : item.item_name}
-                          filterOptions={(options, params) => {
-                            const filtered = filter(options, params);
-                            if (params?.inputValue !== " ") {
-                              filtered.unshift({
-                                inputValue: params?.inputValue,
-                                name: (<Button variant="outlined" color="primary" size="small" value="false" onClick={(event, newValue) => setProductdescription(event, index, false)}>+Add New</Button>)
-                              });
-                            }
-
-
-                            return filtered;
-                          }}
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'product_id', index + 'description', null, invoiceItemList,true) }}
-                          onChange={(event, newValue) => setProductdescription(event, index, newValue)}
-                          size="small"
-                          renderInput={(params) => <TextField
-                            inputRef={input => {
-                              inputRef[index] = input;
-                            }}
-                            {...params} multiline
-                            variant="outlined" label="Item" />}
-                        />
-
-                        {/* <Select
-          labelId="demo-multiple-name-label"
-          id="demo-multiple-name"
-          name="product_id"
-          // multiple
-          // value={personName}
-          value={item.product_id ? item.product_id : ""}
-          onChange={handleChange}
-          // input={<OutlinedInput label="Name" />}
-          // MenuProps={MenuProps}
-        >
-          
-          {proList.filter(obj => obj.div_id == localStorage.getItem('division')).map((item) => (
-
-
-<MenuItem value={item.id} >
-  {item.name}
-</MenuItem>
-
-))}
-
-        </Select> */}
-                      </TableCell>
-                      {
-                        localStorage.getItem('division') == 3 ? <></> : <>
-
-                        <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
-                        <TextField
-                          label="Our description"
-                          // onChange={(event) => handleIvoiceListChange(event, index)}
-                          type="text"
-                          onChange={(event) => handleIvoiceListChange(event, index)}
-                          variant="outlined"
-                          required
-                          size="small"
-                          name="descriptionss"
-                          inputProps={{
-                            ref: setRef(index + 'descriptionss')
-                          }}
-                          onKeyDown={(e) => { controlKeyPress(e, index + 'descriptionss', index + 'quantity', index + 'description', invoiceItemList,true) }}
-
-                          // inputProps={{style: {textTransform: 'capitalize'}}}
-                          fullWidth
-                          multiline
-                          value={item.descriptionss ? item.descriptionss : ""}
-
-                        />
-                      </TableCell>
-                        
-                        </>
-                      }
-
-
-                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '150px' }}>
+                      <TableCell className="pl-0 capitalize" >
                             <TextField
                               label="description"
                               onChange={(event) => handleIvoiceListChange(event, index)}
@@ -2012,7 +1851,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                             />
                           </TableCell>
 
-                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '70px' }}>
+                      <TableCell className="pl-0 capitalize" >
                         <TextValidator
                           label="Qty"
                           onChange={(event) => calcualte_qty(event, index)}
@@ -2146,7 +1985,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
 {/* {console.log("item.purchase_price",item.purchase_price)} */}
 
 
-                      <TableCell className="pl-0 capitalize" align="left" style={{ width: '80px' }}>
+                      <TableCell className="pl-0 capitalize" align="" style={{ width: '100px' }}>
                         <TextValidator
                           label="Margin"
                           onChange={(event) => calcualte_margin(event, index)}
@@ -2163,7 +2002,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                           onKeyDown={(e) => { controlKeyPress(e, index + 'margin', index + 'discount', index + 'purchase_price', invoiceItemList) }}
 
                           name="margin"
-                          style={{ width: '75%', float: 'left' }}
+                          style={{ width: '85%', float: '' }}
                           fullWidth
                           value={item.margin}
                           validators={["required"]}
@@ -3002,7 +2841,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
         {uom && (
           <UOMDialog
             open={uom}
-            handleClose={() => { setUOM(false);setIsAlive(false)}}
+            handleClose={() => { setUOM(false) }}
             setData={setData}
           />
         )}

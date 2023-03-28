@@ -157,6 +157,7 @@ const Master = ({
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
   let bank_expense = 0.00
+  const [arr_length, setarr_length] = useState();
   const [isAlive, setisAlive] = useState(false);
 
   ;
@@ -181,18 +182,22 @@ const Master = ({
   const formData = new FormData();
   useEffect(() => {
     // updateSidebarMode({ mode: "close" })
-    document.title = "Request for quoatation - Amaco";
+    document.title = "PURCHASE TAX - Amaco";
     url.get('purchaseTax').then(({ data }) => {
       // console.log(data)
-      var result = data.filter(obj => (moment(obj.created_at).format('YYYY') == curr_year));
-
+      var result = data.filter(obj => (moment(obj.issue_date).format('YYYY') == curr_year));
+      console.log("result",result)
       setstatements(result)
       setresponse_data(data)
-      var sumTotal = data.reduce((initial, cal) => initial = initial + parseFloat(cal.amount), 0)
+      var sumTotal = 0.0
+      var sumVat = 0.0
+       sumTotal = data.reduce((initial, cal) => initial = initial + parseFloat(cal.amount), 0) ? data.reduce((initial, cal) => initial = initial + parseFloat(cal.amount), 0) : 0.00
       settotal(sumTotal)
-      var sumVat = data.reduce((initial, cal) => initial = initial + parseFloat(cal.tax), 0)
+      sumVat = data.reduce((initial, cal) => initial = initial + parseFloat(cal.tax), 0) ? data.reduce((initial, cal) => initial = initial + parseFloat(cal.tax), 0) : 0.00
       setvattotal(sumVat)
       setsubtotal(sumTotal - sumVat)
+      setarr_length(result.length);
+      console.log("myArr.length",result.length)
 
     })
 
@@ -260,10 +265,13 @@ const Master = ({
 
 
 
-    var result = response_data.filter(obj => (moment(obj.created_at).format('YYYY-MM-DD') >= moment(fDate).format('YYYY-MM-DD') && moment(obj.created_at).format('YYYY-MM-DD') <= moment(tDate).format('YYYY-MM-DD')));
-    var sumTotal = result.reduce((initial, cal) => initial = initial + parseFloat(cal.amount), 0)
+    var result = response_data.filter(obj => (moment(obj.issue_date).format('YYYY-MM-DD') >= moment(fDate).format('YYYY-MM-DD') && moment(obj.issue_date).format('YYYY-MM-DD') <= moment(tDate).format('YYYY-MM-DD')));
+    var sumTotal = 0.0;
+    sumTotal = result.reduce((initial, cal) => initial = initial + parseFloat(cal.amount), 0)
     settotal(sumTotal)
-    var sumVat = result.reduce((initial, cal) => initial = initial + parseFloat(cal.tax), 0)
+    var sumVat = 0.0;
+
+    sumVat = result.reduce((initial, cal) => initial = initial + parseFloat(cal.tax), 0)
     setvattotal(sumVat)
     var date2 = new Date(fDate);
 
@@ -776,7 +784,7 @@ const Master = ({
                                         fontSize: 16,
                                       }}
                                     >
-                                      {moment(item.created_at).format('DD MMM YYYY')}
+                                      {moment(item.issue_date).format('DD MMM YYYY')}
                                     </TableCell>
 
 

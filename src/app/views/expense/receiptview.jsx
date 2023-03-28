@@ -103,9 +103,28 @@ const handleDateChange_Q = (date) => {
     setfrom_date_rec(moment(date).format("YYYY"));
     localStorage.setItem("from_date_rec",moment(date).format("YYYY"));
     setUserList(resetuserList)
+    const datas = resetuserList.filter(
+      (obj) =>
+        new Date(moment(obj.paid_date).format('YYYY')).getTime() == new Date(moment(date).format("YYYY")).getTime() 
+        // new Date(obj.issue_date).getTime() <= new Date(to_date).getTime()
+    );
+    setUserList(datas);
+    localStorage.setItem('dataKeyState_rec', JSON.stringify(datas))
+    
+    
   }else{
     setfrom_date_rec(moment(date).format("YYYY"));
     localStorage.setItem("from_date_rec",moment(date).format("YYYY"));
+
+    const datas = resetuserList.filter(
+      (obj) =>
+        new Date(moment(obj.paid_date).format('YYYY')).getTime() == new Date(moment(date).format("YYYY")).getTime() 
+        // new Date(obj.issue_date).getTime() <= new Date(to_date).getTime()
+    );
+    setUserList(datas);
+    localStorage.setItem('dataKeyState_rec', JSON.stringify(datas))
+    
+    
 
 
   }
@@ -363,14 +382,14 @@ const removeData = (id) => {
                       onChange={handleDateChange_Q}
                     />
           </MuiPickersUtilsProvider>&nbsp;&nbsp;
-          <Button
+          {/* <Button
                     color="success"
                     variant="outlined"
                     type="submit"
                     onClick={handleSubmit}
                   >
                     <Icon>search</Icon>&nbsp;&nbsp; Filter
-                  </Button>&nbsp;&nbsp;
+                  </Button>&nbsp;&nbsp; */}
                   {localStorage.getItem("dataKeyState_rec") &&<Button
                     color="error"
                     variant="outlined"

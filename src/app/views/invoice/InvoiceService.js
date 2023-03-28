@@ -40,8 +40,8 @@ export const getInvoice = () => {
 
 const url = axios.create({
   // baseURL: "http://127.0.0.1:8000/api/", //local connection
-  // baseURL: "https://www.amacoerp.com/test/amaco_test/public/api/", //vps test production
-   baseURL: "https://www.amacoerp.com/amaco/public/api/", //vps production
+  baseURL: "https://www.amacoerp.com/test/amaco_test/public/api/", //vps test production
+  //  baseURL: "https://www.amacoerp.com/amaco/public/api/", //vps production
   //  baseURL: "http://18.210.239.86/test/amaco/public/api/",  // ec2 test connection
   //  baseURL: "http://18.210.239.86/amaco/public/api/",  // ec2 production connection
  
@@ -51,8 +51,8 @@ const url = axios.create({
 
 // export const basePath = "http://127.0.0.1:8000/";
 //  export const basePath = "http://18.210.239.86/amaco/public/";
-// export const basePath = "https://www.amacoerp.com/test/amaco_test/public/";
-export const basePath = "https://www.amacoerp.com/amaco/public/";
+export const basePath = "https://www.amacoerp.com/test/amaco_test/public/";
+// export const basePath = "https://www.amacoerp.com/amaco/public/";
 //   const url = axios.create({
 // baseURL: 'https://www.amacoerp.com/amaco/public/api/',
 

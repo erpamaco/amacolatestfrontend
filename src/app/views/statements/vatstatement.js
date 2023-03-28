@@ -6,6 +6,7 @@ import {
 import DateFnsUtils from "@date-io/date-fns";
 import Header from "./Header";
 import Footer from "./Footer";
+import Excel from '../sales/excel.png';
 
 import {
   Icon,
@@ -125,8 +126,6 @@ const VatStatement = ({
   const [from_date, setfrom_date] = useState(
     "01-01-" + new Date().getFullYear()
   );
-  const curr_date = new Date();
-  const curr_year = moment(curr_date).format("YYYY");
   const [to_date, setto_date] = useState(new Date());
   const [fdate, setfdate] = useState();
   const [tdate, settdate] = useState();
@@ -136,6 +135,8 @@ const VatStatement = ({
   const [statements, setstatements] = useState([]);
   let [dsum, setdsum] = useState(0.0);
   let [csum, setcsum] = useState(0.0);
+  const curr_date = new Date();
+  const curr_year = moment(curr_date).format("YYYY");
 
   const [current_bal, setcurrent_bal] = useState([]);
   const [response_data, setresponse_data] = useState([]);
@@ -163,25 +164,24 @@ const VatStatement = ({
     });
     // displays the debited amount from vat expense or tax paid by the company and credited amount from the Invoices
     url
-      .post(
-        "vat?" +
-          "from_date=" +
-          moment(from_date).format("YYYY-MM-DD") +
-          "&to_date=" +
-          moment(to_date).format("YYYY-MM-DD")
+      .get(
+        "vat"
       )
       .then(({ data }) => {
-        
-        const myArr = Object.values(data[0]?.data).filter((obj)=>obj.div_id==localStorage.getItem('division') && moment(obj.created_at).format('YYYY') == curr_year)
-       
-        setstatements(myArr);
+        const myArr = Object.values(data[0]?.data).sort(
+          (a, b) => new Date(a?.issue_date) - new Date(b?.issue_date)
+        );
+        const myArr2 = Object.values(data[0]?.data).sort(
+          (a, b) => new Date(a?.issue_date) - new Date(b?.issue_date)
+        )?.filter(obj => parseInt(obj.div_id) == parseInt(localStorage.getItem('division')) && parseInt(obj.exclude_from_vat) == 0 && moment(obj.issue_date).format('YYYY') == curr_year);
+
+        setstatements(myArr2);
         setresponse_data(myArr);
         setarr_length(Object.keys(myArr).length);
 
-        
         let sum = 0.0;
         let sum1 = 0.0;
-        Object.values(myArr).map((item, i) => {
+        Object.values(data[0].data).map((item, i) => {
           if (item.debit) {
             sum += parseFloat(item.debit);
           }
@@ -250,6 +250,48 @@ const VatStatement = ({
     setfrom_date(date);
     filter_data(payment_account_id, date, to_date);
   };
+  const handleXlsx = () => {
+    const XLSX = require('xlsx')
+
+    const stmnt = statements?.map((item,i)=>{
+      let a =  i
+      return {
+        'S.NO.' : ++a,
+        'DATE' : moment(item?.issue_date).format("DD MMM YYYY"),
+        'PARTICULARS' : item?.type + "/" + item?.number,
+        'DEBIT' : item.debit === null
+        ? ""
+        : parseFloat(item.debit).toLocaleString(
+            undefined,
+            {
+              minimumFractionDigits: 2,
+            }
+          ),
+        'CREDIT' : item.credit === null
+        ? ""
+        : parseFloat(item.credit).toLocaleString(
+            undefined,
+            {
+              minimumFractionDigits: 2,
+            }
+          ),
+        // 'BALANCE' : osum = calBalance(
+        //   osum,
+        //   item.credit,
+          
+        // ),
+        // 'VAT' : item?.party?.vat_no,
+        
+      }
+    })
+  
+    let binaryWS = XLSX.utils.json_to_sheet(stmnt); 
+    
+    var wb = XLSX.utils.book_new() 
+    XLSX.utils.book_append_sheet(wb, binaryWS, 'Binary values') 
+    
+    XLSX.writeFile(wb, `AMACO VAT STATEMENT ${moment(from_date).format('DD MMM YYYY')} - ${moment(to_date).format('DD MMM YYYY')}.xlsx`);
+  }
 
   // Change the To Date
   const handleToDateChange = date => {
@@ -262,14 +304,14 @@ const VatStatement = ({
     minimumFractionDigits: 2,
   });
 
-  // Filter the array based on the from date and Todate 
+  // Filter the array based on the from date and Todate
   const filter_data = (id, fDate, tDate) => {
     var result = response_data.filter(
       obj =>
-        moment(obj.created_at).format("YYYY-MM-DD") >=
+        moment(obj.issue_date).format("YYYY-MM-DD") >=
           moment(fDate).format("YYYY-MM-DD") &&
-        moment(obj.created_at).format("YYYY-MM-DD") <=
-          moment(tDate).format("YYYY-MM-DD")
+        moment(obj.issue_date).format("YYYY-MM-DD") <=
+          moment(tDate).format("YYYY-MM-DD") && parseInt(obj.div_id) == parseInt(localStorage.getItem('division'))
     );
     var date2 = new Date(fDate);
     let debitSum = 0.0;
@@ -281,7 +323,7 @@ const VatStatement = ({
     response_data
       .filter(
         obj =>
-          moment(obj.created_at).format("YYYY-MM-DD") <
+          moment(obj.issue_date).format("YYYY-MM-DD") <
           moment(date2).format("YYYY-MM-DD")
       )
       .map((item, i) => {
@@ -331,6 +373,16 @@ const VatStatement = ({
             )}
           </span>
           <div className="text-right">
+          <Button
+              className="mr-4 py-2"
+              color="success"
+              variant="outlined"
+              onClick={(e)=>{handleXlsx()}}
+              style={{color:"#087e40",borderColor:"#087e40"}}
+              
+            >
+              <img style={{width:'20px',height:'20px'}} src={Excel} />&nbsp; EXPORT TO XLSX
+            </Button>&nbsp;
             <Button
               className="mr-4 py-2"
               color="secondary"
@@ -455,7 +507,7 @@ const VatStatement = ({
                                 fontSize: 16,
                               }}
                             >
-                              <h3>SALES VAT STATEMENT</h3>
+                              <h3>STATEMENT OF ACCOUNT</h3>
                             </TableCell>
                           </TableRow>
                           <TableRow
@@ -574,7 +626,6 @@ const VatStatement = ({
                               {closing_bal.toLocaleString(undefined, {
                                 minimumFractionDigits: 2,
                               })}
-                                
                             </TableCell>
                           </TableRow>
                         </Table>
@@ -778,7 +829,7 @@ const VatStatement = ({
                                 )}
                               </TableCell>
                             </TableRow>
-                            {statements.filter((obj)=>obj.div_id==localStorage.getItem('division')).map((item, index) => {
+                            {statements.map((item, index) => {
                               return (
                                 <TableRow
                                   style={{
@@ -797,7 +848,7 @@ const VatStatement = ({
                                     }}
                                   >
                                     {/* Displays the from date */}
-                                    {moment(item?.created_at).format(
+                                    {moment(item?.issue_date).format(
                                       "DD-MMM-YYYY"
                                     )}
                                   </TableCell>
@@ -939,10 +990,10 @@ const VatStatement = ({
                                 }}
                               >
                                 {/* Total Debit balance */}
-                                {/* {parseFloat(debit_balance).toLocaleString(
+                                {parseFloat(debit_balance).toLocaleString(
                                   undefined,
                                   { minimumFractionDigits: 2 }
-                                )} */}
+                                )}
                               </TableCell>
                               <TableCell
                                 className="pl-0 capitalize"
@@ -954,10 +1005,10 @@ const VatStatement = ({
                                 }}
                               >
                                 {/* Total Credit balance */}
-                                {/* {parseFloat(credit_balance).toLocaleString(
+                                {parseFloat(credit_balance).toLocaleString(
                                   undefined,
                                   { minimumFractionDigits: 2 }
-                                )} */}
+                                )}
                               </TableCell>
                               <TableCell
                                 className="pl-0 capitalize"

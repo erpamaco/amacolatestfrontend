@@ -5,6 +5,7 @@ import {
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { Link, useParams } from "react-router-dom";
+import Excel from '../sales/excel.png';
 
 import {
   Icon, Card,
@@ -175,7 +176,106 @@ const Customer = ({
   const { ids } = useParams();
   const curr_date = new Date();
   const curr_year = moment(curr_date).format("YYYY");
+  const handleXlsx = () => {
+    const XLSX = require('xlsx')
 
+    const stmnt = statements?.map((item,i)=>{
+      let a =  i
+      return {
+        'S.NO' : ++a,
+        'DATE' : moment(item[0].date).format("DD-MMM-YYYY"),
+        'INV.#' : item[0].code_no === null
+        ? ""
+        : item[0].code_no,
+        'DOCUMENT#' : item[0].po_number === null
+        ? ""
+        : item[0].po_number,
+        'PARTICULARS' : item[0].description === null
+        ? ""
+        : item[0].description,
+        'BILL AMOUNT' : item[0].debit === null ? "" : parseFloat(item[0].debit).toLocaleString(undefined, {
+          minimumFractionDigits: 2
+        }),
+        'RECEIVED AMOUNT' : item[0].credit === null
+        ? ""
+        : parseFloat(item[0].credit).toLocaleString(undefined, {
+          minimumFractionDigits: 2
+        }),
+        'BALANCE' : item[0].debit
+        ? (osum = calBalance(
+          osum,
+          item[0].debit,
+          "+",
+          // index,
+        ))
+        : (osum = calBalance(
+          osum,
+          item[0].credit,
+          "-",
+          // index
+        )),
+        'AGE' : item[0].debit
+        ?  moment(new Date(), "YYYY-MM-DD").diff(
+          moment(new Date(item[0].date), "YYYY-MM-DD"),
+          "days"
+        )   : '',
+        'INV. STATUS' : item[0]?.invStatus == true ? <>
+        <small
+            className={clsx({
+              "border-radius-4  text-white px-2 py-2px bg-green": true,
+
+            })}
+          >
+            CLEARED
+          </small>
+      </> : <> { moment(new Date(), "YYYY-MM-DD").diff(
+          moment(new Date(item[0].date), "YYYY-MM-DD"),
+          "days"
+        ) > 0 ?  <>  
+        <small
+          className={clsx({
+            "border-radius-4  text-white px-2 py-2px bg-secondary": true,
+
+          })}
+        >
+          DUE IN <br />{ Math.abs(item[0].credit_days -  moment(new Date(), "YYYY-MM-DD").diff(
+          moment(new Date(item[0].date), "YYYY-MM-DD"),
+          "days"
+        ))} DAYS
+        </small>
+        </>:<> 
+       {
+         moment(new Date(), "YYYY-MM-DD").diff(
+          moment(new Date(item[0].date), "YYYY-MM-DD"),
+          "days"
+        ) < 0 && <>
+        <small
+          className={clsx({
+            "border-radius-4  text-white px-2 py-2px bg-error": true,
+
+          })}
+        >
+           DUE SINCE <br />{ Math.abs(item[0].credit_days -  moment(new Date(), "YYYY-MM-DD").diff(
+          moment(new Date(item[0].date), "YYYY-MM-DD"),
+          "days"
+        ))} DAYS
+        </small>
+        </>
+       }
+        
+        </> }</>,
+        
+        
+      }
+    })
+  
+    let binaryWS = XLSX.utils.json_to_sheet(stmnt); 
+    
+    var wb = XLSX.utils.book_new() 
+    XLSX.utils.book_append_sheet(wb, binaryWS, 'Binary values') 
+    
+    XLSX.writeFile(wb, `AMACO CUSTOMER STATEMENT ${moment(from_date).format('DD-MM-YYYY')} - ${moment(to_date).format('DD-MM-YYYY')}.xlsx`);
+  }
   const [state, setState] = React.useState({
     open: false,
     vertical: "top",
@@ -369,13 +469,13 @@ const Customer = ({
       openingBal = 0.00
     }
 
-    var result = response_data.filter(obj => id !== "All" ? (obj[0].party_id == id && moment(obj[0].created_at).format('YYYY-MM-DD') >= moment(fDate).format('YYYY-MM-DD') && moment(obj[0].created_at).format('YYYY-MM-DD') <= moment(tDate).format('YYYY-MM-DD')) : (moment(obj[0].created_at).format('YYYY-MM-DD') >= moment(fDate).format('YYYY-MM-DD') && moment(obj[0].created_at).format('YYYY-MM-DD') <= moment(tDate).format('YYYY-MM-DD')));
+    var result = response_data.filter(obj => id !== "All" ? (obj[0].party_id == id && moment(obj[0].issue_date).format('YYYY-MM-DD') >= moment(fDate).format('YYYY-MM-DD') && moment(obj[0].issue_date).format('YYYY-MM-DD') <= moment(tDate).format('YYYY-MM-DD')) : (moment(obj[0].issue_date).format('YYYY-MM-DD') >= moment(fDate).format('YYYY-MM-DD') && moment(obj[0].issue_date).format('YYYY-MM-DD') <= moment(tDate).format('YYYY-MM-DD')));
     var date2 = new Date(fDate);
     let debitSum = 0.00;
     let creditSum = 0.00;
     let dSum = 0.00;
     let cSum = 0.00;
-    response_data.filter(obj => id !== "All" ? (obj[0].party_id == id && moment(obj[0].created_at).format('YYYY-MM-DD') < moment(date2).format('YYYY-MM-DD')) : (moment(obj[0].created_at).format('YYYY-MM-DD') < moment(date2).format('YYYY-MM-DD'))).map((item, i) => {
+    response_data.filter(obj => id !== "All" ? (obj[0].party_id == id && moment(obj[0].issue_date).format('YYYY-MM-DD') < moment(date2).format('YYYY-MM-DD')) : (moment(obj[0].issue_date).format('YYYY-MM-DD') < moment(date2).format('YYYY-MM-DD'))).map((item, i) => {
 
 
       if (item[0].debit) {
@@ -458,6 +558,16 @@ const Customer = ({
             ]}
           />) : (<div></div>)}
           <div className="text-right">
+          <Button
+              className="mr-4 py-2"
+              color="success"
+              variant="outlined"
+              onClick={(e)=>{handleXlsx()}}
+              style={{color:"#087e40",borderColor:"#087e40"}}
+              
+            >
+              <img style={{width:'20px',height:'20px'}} src={Excel} />&nbsp; EXPORT TO XLSX
+            </Button>&nbsp;
             <Button
               className="mr-4 py-2"
               color="secondary"

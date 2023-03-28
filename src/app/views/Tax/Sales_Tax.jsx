@@ -180,6 +180,7 @@ const Master = ({
     // updateSidebarMode({ mode: "close" })
     document.title = "Request for quoatation - Amaco";
     url.get('salesTax').then(({ data }) => {
+      console.log("ddddda",data)
       
       setstatements(data?.filter(obj => parseInt(obj.div_id) == parseInt(localStorage.getItem('division')) && parseInt(obj.exclude_from_vat) == 0 && moment(obj.issue_date).format('YYYY') == curr_year))
       setresponse_data(data)
@@ -865,7 +866,7 @@ const Master = ({
                                       colSpan={2}
                                     >
 
-                                      {item.party.firm_name}
+                                      {item?.party?.firm_name}
                                     </TableCell>
                                     <TableCell
                                       className="pl-2 capitalize"
@@ -904,7 +905,7 @@ const Master = ({
                                       }}
 
                                     >
-                                      {item.party.vat_no}
+                                      {item?.party?.vat_no}
                                     </TableCell>
                                     {/* <TableCell
                                   className="pl-2 capitalize"

@@ -157,7 +157,8 @@ const Master = ({
   const [statements, setstatements] = useState([]);
   let [dsum, setdsum] = useState(0.0);
   let [csum, setcsum] = useState(0.0);
-
+  const curr_date = new Date();
+  const curr_year = moment(curr_date).format("YYYY");
   const [current_bal, setcurrent_bal] = useState([]);
   const [response_data, setresponse_data] = useState([]);
   const [arr_length, setarr_length] = useState();
@@ -188,7 +189,7 @@ const Master = ({
     });
 
     url
-      .post(
+      .get(
         "all-account-masterstatement?" +
         "from_date=" +
         moment(from_date).format("YYYY-MM-DD") +
@@ -198,11 +199,12 @@ const Master = ({
       .then(({ data }) => {
         // console.log(data)
         const myArr = Object.values(data[0].data).sort(
-          (a, b) => new Date(b[0]?.date) - new Date(b[0]?.date)
-        );
+          (a, b) => new Date(a[0]?.issue_date) - new Date(b[0]?.issue_date)
+        )?.filter(obj =>  moment(obj[0]?.issue_date).format('YYYY') == curr_year);
 
         setstatements(myArr);
-        setresponse_data(myArr);
+        setresponse_data(Object.values(data[0]?.data));
+        console.log("datattatt",Object.values(data[0].data))
         setarr_length(Object.keys(myArr).length);
 
 
@@ -425,13 +427,13 @@ const Master = ({
     })
     setcname(name[0]?.name)
 
-    var result = response_data.filter(obj => id !== "All" ? (obj[0].divisionId == id && moment(obj[0].created_at).format('YYYY-MM-DD') >= moment(fDate).format('YYYY-MM-DD') && moment(obj[0].created_at).format('YYYY-MM-DD') <= moment(tDate).format('YYYY-MM-DD')) : (moment(obj[0].created_at).format('YYYY-MM-DD') >= moment(fDate).format('YYYY-MM-DD') && moment(obj[0].created_at).format('YYYY-MM-DD') <= moment(tDate).format('YYYY-MM-DD')));
+    var result = response_data.filter(obj => id !== "All" ? (obj[0].divisionId == id && moment(obj[0].issue_date).format('YYYY-MM-DD') >= moment(fDate).format('YYYY-MM-DD') && moment(obj[0].issue_date).format('YYYY-MM-DD') <= moment(tDate).format('YYYY-MM-DD')) : (moment(obj[0].issue_date).format('YYYY-MM-DD') >= moment(fDate).format('YYYY-MM-DD') && moment(obj[0].issue_date).format('YYYY-MM-DD') <= moment(tDate).format('YYYY-MM-DD')));
     var date2 = new Date(fDate);
     let debitSum = 0.00;
     let creditSum = 0.00;
     let dSum = 0.00;
     let cSum = 0.00;
-    response_data.filter(obj => id !== "All" ? (obj[0].divisionId == id && moment(obj[0].created_at).format('YYYY-MM-DD') < moment(date2).format('YYYY-MM-DD')) : (moment(obj[0].created_at).format('YYYY-MM-DD') < moment(date2).format('YYYY-MM-DD'))).map((item, i) => {
+    response_data.filter(obj => id !== "All" ? (obj[0].divisionId == id && moment(obj[0].issue_date).format('YYYY-MM-DD') < moment(date2).format('YYYY-MM-DD')) : (moment(obj[0].issue_date).format('YYYY-MM-DD') < moment(date2).format('YYYY-MM-DD'))).map((item, i) => {
 
 
       if (item[0].debit) {
@@ -1067,7 +1069,7 @@ const Master = ({
                               </TableCell>
 
                             </TableRow>
-                            {statements.sort((a, b) => new Date(a[0]?.date) - new Date(b[0]?.date)).map((item, index) => {
+                            {statements.sort((a, b) => new Date(a[0]?.issue_date) - new Date(b[0]?.issue_date))?.filter(obj =>  moment(obj.issue_date).format('YYYY') == curr_year).map((item, index) => {
 
 
 
@@ -1088,7 +1090,7 @@ const Master = ({
                                       fontSize: 16,
                                     }}
                                   >
-                                    {moment(item[0].date).format("DD-MMM-YYYY")}
+                                    {moment(item[0].issue_date).format("DD-MMM-YYYY")}
                                   </TableCell>
 
 

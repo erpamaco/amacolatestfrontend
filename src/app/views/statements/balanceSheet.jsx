@@ -410,7 +410,7 @@ const BalanceSheet = ({ refval }) => {
       let cash_expense = data.responseData.Expense.filter(
         (obj) =>
           obj.payment_type == "cash" &&
-          obj.payment_account[0].type == "division"
+          obj.payment_account[0]?.type == "division"
       ).reduce(
         (initial, cal) => (initial = initial + parseFloat(cal.amount)),
         0

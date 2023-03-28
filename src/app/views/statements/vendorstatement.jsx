@@ -5,7 +5,7 @@ import {
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { Link, useParams } from "react-router-dom";
-
+import Excel from '../sales/excel.png';
 import {
   Icon,
   Grid,
@@ -146,7 +146,70 @@ const Vendor = ({
   const componentRef = useRef();
 
   const [UserList, setUserList] = useState([]);
+  const handleXlsx = () => {
+    const XLSX = require('xlsx')
 
+    const stmnt = statements?.map((item,i)=>{
+      let a =  i
+      return {
+        'S.NO.' : ++a,
+        'DATE' : moment(item[0].date).format("DD-MMM-YYYY"),
+        'INV.#' : item[0].code_no === null
+        ? ""
+        : item[0].code_no == "true"
+        ? " "
+        : item[0].code_no,
+        'PARTICULARS' : item[0].description === null
+        ? ""
+        : item[0].description,
+        'BILL AMOUNT' : item[0].credit === null
+        ? ""
+        : parseFloat(
+            item[0].credit
+          ).toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+          }),
+        'PAYMENT AMOUNT' : item[0].debit === null
+        ? ""
+        : parseFloat(
+            item[0].debit
+          ).toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+          }),
+        'BALANCE' :item[0].debit
+        ? (osum = calBalance(
+            osum,
+            item[0].debit,
+            "+",
+            // index
+          ))
+        : (osum = calBalance(
+            osum,
+            item[0].credit,
+            "-",
+            // index
+          )),
+        'AGE' : item[0].debit
+        ? moment(new Date(), "YYYY-MM-DD").diff(
+            moment(
+              `${item[0].date}`,
+              "YYYY-MM-DD"
+            ),
+            "days"
+          )
+        : "",
+        'INV.STATUS' :"hellp" ,
+        
+      }
+    })
+  
+    let binaryWS = XLSX.utils.json_to_sheet(stmnt); 
+    
+    var wb = XLSX.utils.book_new() 
+    XLSX.utils.book_append_sheet(wb, binaryWS, 'Binary values') 
+    
+    XLSX.writeFile(wb, `AMACO VENDOR STATEMENT ${moment(from_date).format('DD-MM-YYYY')} - ${moment(to_date).format('DD-MM-YYYY')}.xlsx`);
+  }
   const [IsAlive, setIsAlive] = useState(false);
   const [thstatus, setthstatus] = useState(false);
   const [from_date, setfrom_date] = useState(
@@ -185,7 +248,7 @@ const Vendor = ({
   var demoArr;
 
   useEffect(() => {
-    document.title = "Request for quoatation - Amaco";
+    document.title = "Request for vendor statement - Amaco";
     // getVendorList().then(({ data }) => {
     //   console.log(data);
     //   setUserList(data?.vendors);
@@ -422,6 +485,16 @@ const Vendor = ({
             <div></div>
           )}
           <div className="text-right">
+          <Button
+              className="mr-4 py-2"
+              color="success"
+              variant="outlined"
+              onClick={(e)=>{handleXlsx()}}
+              style={{color:"#087e40",borderColor:"#087e40"}}
+              
+            >
+              <img style={{width:'20px',height:'20px'}} src={Excel} />&nbsp; EXPORT TO XLSX
+            </Button>&nbsp;
             <Button
               className="mr-4 py-2"
               color="secondary"

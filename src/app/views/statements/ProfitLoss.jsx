@@ -19,7 +19,7 @@ import {
   Button
 } from "@material-ui/core";
 import clsx from "clsx";
-
+import Excel from '../sales/excel.png';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { useReactToPrint } from 'react-to-print';
@@ -243,6 +243,32 @@ function ProfitLoss() {
 
   }
 
+  const handleXlsx = () => {
+    const XLSX = require('xlsx')
+
+    const stmnt = filter_month?.map((item,i)=>{
+      let a =  i
+      return {
+        'S.NO.' : ++a,
+        'MONTH' : item,
+        'OPERATIONAL EXPENSES' :caluclateamount(arrExpense, item, "Operational Expenses"),
+        'MARKETING EXPENSES' : caluclateamount(arrExpense, item, "Marketing Expenses"),
+        'GOV.EXPENSES' : caluclateamount(arrExpense, item, "Governmental Expenses"),
+        'PURCHASE EXPENSES' : caluclateamount(arrExpense, item, "PURCHASE"),
+        'SALES INCOMING' : caluclateamount(salesExpense, item, "SALES"),
+
+        
+      }
+    })
+  
+    let binaryWS = XLSX.utils.json_to_sheet(stmnt); 
+    
+    var wb = XLSX.utils.book_new() 
+    XLSX.utils.book_append_sheet(wb, binaryWS, 'Binary values') 
+    
+    XLSX.writeFile(wb, `AMACO PROFIT AND LOSS REPORT.xlsx`);
+  }
+
   const id = useRef(null);
   const [arrExpense, setarrExpense] = useState([]);
   const [salesExpense, setsalesExpense] = useState([]);
@@ -273,8 +299,9 @@ function ProfitLoss() {
     quaterMonths(quarter)
 
     url.get('salesExpenseReport').then(({ data }) => {
+      console.log("salesExpenseReport",data)
 
-      var result = data[0].filter(date => moment(date.category.date).format('YYYY') == moment(y).format('YYYY')).map((item, i) => {
+      var result = data[0].filter(date => moment(date.category.paid_date).format('YYYY') == moment(y).format('YYYY')).map((item, i) => {
 
 
         let dateObj = new Date(item.category.paid_date);
@@ -360,6 +387,7 @@ function ProfitLoss() {
 
   }
   useEffect(() => {
+    document.title = "Profit and Loss Report - Amaco";
 
     filterData(year)
 
@@ -369,6 +397,7 @@ function ProfitLoss() {
       var n1 = document.getElementById('net').innerHTML.replace(/,/g, '');
       // console.log(parseFloat(n1))
       url.get("profitLoss").then(({ data }) => {
+        console.log("iphone",data)
         var res = data[0].data.map((item) => {
           item['profit_Amount'] = (parseFloat(item.profit_per) / 100) * n1;
           item['invest_Amount'] = data[0].data?.filter(obj => obj.payment_account_id == item.payment_account_id).reduce((a, v) => a = a + parseFloat(v.investment_details?.amount), 0.00) + parseFloat(item.opening_balance ? item.opening_balance : 0.00)
@@ -459,6 +488,16 @@ function ProfitLoss() {
               </Grid>
             </div>
             <div>
+            <Button
+              className="mr-4 py-2"
+              color="success"
+              variant="outlined"
+              onClick={(e)=>{handleXlsx()}}
+              style={{color:"#087e40",borderColor:"#087e40"}}
+              
+            >
+              <img style={{width:'20px',height:'20px'}} src={Excel} />&nbsp; EXPORT TO XLSX
+            </Button>&nbsp;
               <Button
                 className="mr-4 py-2"
                 color="secondary"
@@ -494,7 +533,7 @@ function ProfitLoss() {
                         <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">MARKETING EXPENSES</TableCell>
 
                         <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">GOV. EXPENSES</TableCell>
-                        <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">PURCHASE EXPENSE</TableCell>
+                        <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">PURCHASE EXPENSES</TableCell>
 
 
 
@@ -508,7 +547,7 @@ function ProfitLoss() {
                             <TableCell className="pr-0" align="center" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
                               {item}
                             </TableCell>
-
+                            
                             <TableCell className="pr-4" align="right" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
                               {caluclateamount(arrExpense, item, "Operational Expenses")}
                             </TableCell>
@@ -627,10 +666,22 @@ function ProfitLoss() {
                       </TableRow>
                       <TableRow style={{ border: "1px solid #ccc", pageBreakInside: 'avoid', backgroundColor: '#cccccc85', fontWeight: 1000 }}>
                         <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', fontWeight: 1000 }} >
-                          TOTAL EXPENSES
+                          TOTAL PURCHASES
                         </TableCell>
                         <TableCell className="pr-0" align="center" colspan={5} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', fontWeight: 1000 }} >
-                          {caluclateTotalExpense(arrExpense, filter_month, "Operational Expenses", "Governmental Expenses", "Marketing Expenses", "PURCHASE").toLocaleString(undefined, {
+                        {caluclateTotalExpense(arrExpense, filter_month, "PURCHASE").toLocaleString(undefined, {
+                            minimumFractionDigits: 2
+
+                          })}
+
+                        </TableCell>
+                      </TableRow>
+                      <TableRow style={{ border: "1px solid #ccc", pageBreakInside: 'avoid', backgroundColor: '#cccccc85', fontWeight: 1000 }}>
+                        <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', fontWeight: 1000 }} >
+                          OTHER EXPENSES
+                        </TableCell>
+                        <TableCell className="pr-0" align="center" colspan={5} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', fontWeight: 1000 }} >
+                          {caluclateTotalExpense(arrExpense, filter_month, "Operational Expenses", "Governmental Expenses", "Marketing Expenses").toLocaleString(undefined, {
                             minimumFractionDigits: 2
 
                           })}

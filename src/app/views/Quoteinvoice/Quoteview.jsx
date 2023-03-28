@@ -276,12 +276,14 @@ const InvoiceViewer = ({ toggleInvoiceEditor, list = [],
   const [shouldOpenAddList, setShouldOpenAddList] = useState(false);
   const [rfq_no, setrfq_no] = useState("");
   const [prefix, setprefix] = useState("");
+  const [qdesc, setqdesc] = useState("");
   const routerHistory = useHistory();
 
   const [srcfile, setsrcfile] = useState("");
   // const [sign, setsign] = useState("");
   const [sign, setsign] = useState([]);
   const [subject, setsubject] = useState("");
+  const [qtype, setqtype] = useState("");
   const [message, setmessage] = useState(false);
   const [loading, setloading] = useState(false);
   const [discount_per, setdiscount_per] = useState('');
@@ -468,6 +470,9 @@ let sizepage;
       setdiscount_per(data[0]?.discount_in_p)
 
       setsubject(data[0]?.subject)
+      setqtype(data[0]?.quote_type)
+      console.log("data[0]?.quote_type",data[0]?.quote_type)
+      setqdesc(data[0]?.subject2)
       setsign(data[0]?.sign)
       setcity(data[0]?.party?.city)
      
@@ -1066,7 +1071,7 @@ let sizepage;
 
                     <div className="flex">
                       <div className="pl-0 px-0 mb-4 mr-24 justify-center">
-                        <h1><strong> QUOTATION</strong></h1>
+                        {qtype == "contracting" ? <><h1><strong>CONTRACTING QUOTATION</strong></h1></>: <><h1><strong>QUOTATION</strong></h1></>}
                         {vat}
                       </div>
                     </div>
@@ -1382,13 +1387,357 @@ let sizepage;
                       <TableRow className="pl-4">
                         {prefix ? (prefix === "Mr" ? "Dear Sir," : "Dear Madam,") : 'Dear Sir/Madam,'}
                         <br></br>
-                        Thank you for requesting us for the quotation of below mentioned items, please find our best price for the supply of requested
+                        {qdesc !== null ? qdesc : <>Thank you for requesting us for the quotation of below mentioned items, please find our best price for the supply of requested
                         items.<br></br>
-                        We look forward for our valued P.O.
+                        We look forward for our valued P.O.</>}
+                        
                       </TableRow>
                     </Table>
                   </div>
-                  <div className="px-4 mb-2 pl-4 pt-4 flex justify-between" id="table">
+
+
+                  {/* ----------------contracting quote----------- */}
+                  {qtype == "contracting" ? <><div className="px-4 mb-2 pl-4 pt-4 flex justify-between" id="table">
+                    <Table style={{ width: "100%", fontSize: '10pt', border: "none", fontFamily: 'Calibri',zIndex:'1000' }} className="pl-4" id="table" >
+                      <TableHead style={{ backgroundColor: '#1d2257', display: 'table-row-group' }}>
+                        <TableRow style={{ pageBreakInside: 'avoid' }} id="table">
+                          <TableCell className="pr-0" colspan={1} style={{ border: "1px solid #ccc", width: "50px", fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center"> <span style={{ fontSize: 16 }}>رقم</span>
+                              <br></br>S.No.</TableCell>
+                          {
+                            localStorage.getItem('division') == 3 ? <></> :localStorage.getItem('division') == 5 ? <>
+                              {/* <TableCell className="px-0" colspan={2} style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">ITEM</TableCell> */}
+                              <TableCell className="px-0" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">RFQ DESCRIPTION</TableCell>
+
+                            </>:<>
+                              <TableCell className="px-0" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center"> <span style={{ fontSize: 16 }}>وصف </span>
+                              <br></br>RFQ DESCRIPTION</TableCell>
+</>
+                          }
+                          {
+                            localStorage.getItem('division') == 3 ? <>
+                              <TableCell className="px-0" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center"><span style={{ fontSize: 16 }}>وصف </span>
+                              <br></br>AMACO OFFERED DESCRIPTION </TableCell>
+
+                            </> : <>
+                            
+
+                            </>
+                          }
+
+                          <TableCell className="px-0" colSpan={3} style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center"> <span style={{ fontSize: 16 }}>كمية</span>
+                              <br></br>QTY</TableCell>
+                          <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: '11pt' }} colSpan={3} align="center"><span style={{ fontSize: 16 }}>وحدة</span>
+                              <br></br>UOM</TableCell>
+
+                          <TableCell className="px-0" colSpan={3} style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center"><span style={{ fontSize: 16 }}>سعر الوحدة</span>
+                              <br></br>UNIT PRICE</TableCell>
+                          <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", width: 194, color: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center"><span style={{ fontSize: 16 }}>المجموع</span>
+                              <br></br>TOTAL</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody >
+
+                        {qdetails.sort((a, b) => (a.index1 - b.index1)).map((item, index) => {
+
+                          return (
+
+                            <TableRow style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                              {item.count > 0 ? <TableCell className={(qdetails.length - 1) === index ? "pr-0" : "pr-0 hideBottomLine"} align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', borderTop: '2px solid #ccc' }} >
+                                {item.index1}
+                              </TableCell> : <TableCell className={qdetails.length - 1 === index ? "pr-0" : "pr-0 hideBottomLine"} align="center" colspan={1} style={{ fontFamily: "Calibri", fontSize: '11pt' }} >
+                                {/* {item?.file ? <img className="w-60" src={item.file} /> : ""} */}
+                              </TableCell>}
+                             
+
+                                <TableCell className="pr-0" align="center" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+
+
+                                  {/* <TableRow  style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                                          <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                            {item?.description}
+                                          </TableCell>
+                                        </TableRow> */}
+
+                                  {item?.description}
+
+
+                                </TableCell>
+
+                             
+                              <TableCell className="pr-0" align="center" colspan={3} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                {/* {(obj).map((item, ind) => {
+                                        return (
+                                          <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                                            <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                              {item.quantity}
+                                            </TableCell>
+                                          </TableRow>
+
+                                        )
+                                      })} */}
+                                      {parseFloat(item?.quantity).toLocaleString(undefined, { minimumFractionDigits: 0})}
+
+                                {/* {item?.quantity} */}
+                              </TableCell>
+                              <TableCell className="pr-0" align="center" colspan={3} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                {/* {(obj).map((item, ind) => {
+                                        return (
+                                          <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                                            <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                              {item?.unit_of_measure}
+                                            </TableCell>
+                                          </TableRow>
+
+                                        )
+                                      })} */}
+                                {item?.unit_of_measure}
+                              </TableCell>
+                              <TableCell className="pr-2" align="center" colspan={3} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                {/* {(obj).map((item, ind) => {
+                                        return (
+                                          <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                                            <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                              {parseFloat(item.sell_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                            </TableCell>
+                                          </TableRow>
+
+                                        )
+                                      })} */}
+                                      {item?.unit_of_measure == "Lumpsum"  ? item?.unit_of_measure : isNaN(parseFloat(item?.sell_price)) ? 0 : parseFloat(item?.sell_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                              </TableCell>
+                              <TableCell className="pr-2" align="right" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                {/* {(obj).map((item, ind) => {
+                                        return (
+                                          <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                                            <TableCell width='500' className="pr-0 nClass" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                              {parseFloat(item.total_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                            </TableCell>
+                                          </TableRow>
+
+                                        )
+                                      })} */}
+                                {isNaN(parseFloat(item?.total_amount)) ? 0 : parseFloat(item?.total_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                              </TableCell>
+                            </TableRow>
+                          )
+
+                        })}
+
+                        {/* {qdetails.map((item, index) => {
+                          return (
+                            <TableRow key={index} style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                              <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                {index + 1}
+                              </TableCell>
+
+                              {
+                                localStorage.getItem('division') == 3 ? <></> : <>
+                                  <TableCell className="pr-0" align="center" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} colspan={2}>
+
+                                    {item.file ? <img className="w-60" src={item.file} alt="" /> : ''}
+
+                                  </TableCell>
+                                  <TableCell className="pl-2" align="left" colspan={4} style={{ border: "1px solid #ccc", wordBreak: 'break-word', fontFamily: "Calibri", fontSize: '11pt' }}>
+                                    {item.description}
+                                  </TableCell>
+                                </>
+                              }
+
+                              <TableCell className="pl-2" align="left" colspan={4} style={{ border: "1px solid #ccc", wordBreak: 'break-word', fontFamily: "Calibri", fontSize: '11pt' }}>
+                                {item?.descriptionss}
+                              </TableCell>
+                             
+
+                              <TableCell className="pr-0 " align="center" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }}>
+                                {nf.format(item.quantity)}
+
+
+                              </TableCell>
+                              <TableCell className="pr-0 " colSpan={2} align="center" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }}>
+                                {item?.unit_of_measure}
+                              </TableCell>
+                              <TableCell className="pl-0 " style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                                {parseFloat(item.sell_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                              </TableCell>
+                              <TableCell className="pl-0 " style={{ textAlign: "right", border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }}>
+
+                                {parseFloat(item.total_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+
+
+
+                              </TableCell>
+
+
+
+                            </TableRow>
+                          );
+                        })} */}
+                      </TableBody>
+                    </Table>
+                  </div>
+                  <div  className="viewer__order-info px-4 mb-4 flex justify-between" style={{pageBreakInside: 'avoid'}}>
+                    <Table className="bandkDetTop" style={{position:'relative',top:'-57px'}}>
+                    <TableHead style={{ backgroundColor: 'trasparent',visibility:'hidden' }}>
+                        <TableRow style={{ pageBreakInside: 'avoid' }} id="table">
+                          <TableCell className="pr-0" colspan={1} style={{  width: "50px", fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">S.No.</TableCell>
+                          {
+                            localStorage.getItem('division') == 3 ? <></> :localStorage.getItem('division') == 5 ?  <>
+                              {/* <TableCell className="px-0" colspan={2} style={{  fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">ITEM</TableCell> */}
+                              <TableCell className="px-0" colspan={4} style={{  fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">RFQ DESCRIPTION</TableCell>
+
+                            </>:<>
+                              <TableCell className="px-0" colspan={4} style={{  fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">RFQ DESCRIPTION</TableCell>
+</>
+                          }
+                          {
+                            localStorage.getItem('division') == 3 ? <>
+                              <TableCell className="px-0" colspan={4} style={{  fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">AMACO OFFERED DESCRIPTION </TableCell>
+
+                            </> : <>
+                              
+
+                            </>
+                          }
+
+                          <TableCell className="px-0" style={{  fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: '11pt' }} colSpan={3} align="center">QTY</TableCell>
+                          <TableCell className="px-0" style={{  fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: '11pt' }} colSpan={3} align="center">UOM</TableCell>
+
+                          <TableCell className="px-0" style={{  fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center" colSpan={3}>UNIT PRICE</TableCell>
+                          <TableCell className="px-0" style={{  fontFamily: "Calibri", width: 110, color: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">TOTAL</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                      <TableRow style={{ border: "1px solid #ccc", pageBreakInside: 'avoid', pageBreakAfter: 'always', pageBreakBefore: 'always' }}>
+                          <TableCell className="pl-0 " align="center" style={{ border: "1px solid #ccc", fontFamily: "Calibri" }} rowspan={3} colspan={localStorage.getItem('division') == 3 ? 5 : localStorage.getItem('division') == 5 ? 9 : 11}>
+                            <div className="px-4 flex justify-between" style={{ fontFamily: "Calibri" }}>
+                              <div className="flex">
+                                <div className="pr-12">
+                                  <TableRow>
+                                    <td>
+                                      <h5 className="font-normal ">
+                                        <strong>BANK DETAILS</strong>{" "}
+                                      </h5>
+                                    </td>
+                                  </TableRow>
+                                  <tr style={{ fontSize: '11pt', textAlign: 'left' }} >
+                                    <td><strong>Bank Name</strong></td>
+                                    <td >{bank?.bank_name}</td>
+                                  </tr>
+                                  <tr style={{ fontSize: '11pt', textAlign: 'left' }}>
+                                    <td ><strong>Account No</strong></td>
+                                    <td >{bank?.acc_no}</td>
+                                  </tr>
+                                  <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
+                                    <td ><strong>IBAN No</strong></td>
+                                    <td >{bank?.iban_no}</td>
+                                  </tr>
+                                </div>
+                              </div>
+                            </div>
+
+                          </TableCell>
+                          <TableCell className="pr-0 " align="center" style={{ border: "1px solid #ccc", wordBreak: 'break-word', fontFamily: "Calibri", fontSize: '11pt' }} colspan={3}>
+
+                          االمجموع الفرعي
+                              <br></br>
+                              SUB TOTAL
+
+                          </TableCell>
+                          {/* <TableCell className="pl-0 " align="center" style={{ border: "1px solid #ccc",width: "500px",fontFamily: "Calibri",borderRight:"1px solid #fff"}}>
+                    SAR
+                  </TableCell> */}
+                          <TableCell className="pl-0 " align="right" style={{ border: "1px solid #ccc", wordBreak: 'break-word', fontFamily: "Calibri", fontSize: '11pt' }} colspan={2}>
+                            <div>
+                              <div style={{ float: "left" }} className="pl-10">SAR</div>
+                              <div style={{ float: "right" }}>
+                                {parseFloat(total_value).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+
+                              </div>
+                              <div style={{ clear: "left" }} />
+                            </div>
+
+                          </TableCell>
+
+                        </TableRow>
+
+                        <TableRow style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }} id="abc">
+                          {(parseFloat(discount_per) !== 0.00 && !isNaN(parseFloat(discount_per))) && (<>
+                            <TableCell className="pr-0 " align="center" style={{ border: "1px solid #ccc", wordBreak: 'break-word', fontFamily: "Calibri", fontSize: '11pt' }} colspan={3} >
+                            تخفيض
+                              <br></br>
+                              
+                              DISCOUNT
+                            </TableCell>
+
+                            <TableCell className="pl-0 " align="right" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} colspan={2}>
+                              <div>
+                                <div style={{ float: "left" }} className="pl-10">SAR</div>
+                                <div style={{ float: "right" }}>
+                                  {discount_per == 0 ? 0.00 : parseFloat(discount_per * (total_value + other + transport) / 100).toFixed(2)}
+
+                                </div>
+                                <div style={{ clear: "left" }} />
+                              </div>
+                              {/* {discount_per==0?0.00:parseFloat(discount_per * (total_value+other+transport)/100).toFixed(2)} SAR */}
+                            </TableCell>
+                          </>)}
+                        </TableRow>
+
+                        <TableRow style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                          <TableCell className="pr-0 " align="center" style={{ border: "1px solid #ccc", wordBreak: 'break-word', fontFamily: "Calibri", fontSize: '11pt' }} colspan={3}>
+
+                          القيمة الضريبية
+                              <br></br>
+                              TOTAL VAT AMOUNT (15%)
+                          </TableCell>
+                        
+                          <TableCell className="pl-0 " align="right" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} colspan={2}>
+                            <div>
+                              <div style={{ float: "left" }} className="pl-10">SAR</div>
+                              <div style={{ float: "right" }}>
+                                {isNaN(parseFloat(vat_in_value)) ? 0.00 : parseFloat(vat_in_value).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+
+                              </div>
+                              <div style={{ clear: "left" }} />
+                            </div>
+                          </TableCell>
+                        </TableRow>
+
+                        <TableRow style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
+                          <TableCell colspan={localStorage.getItem('division') == 3 ? 5 : localStorage.getItem('division') == 5 ? 9 : 11} style={{ border: "1px solid #ccc", fontFamily: "Calibri" }} className="pl-0 capitalize">
+                            <div className="px-4 flex justify-between">
+                              <div className="flex">
+                                <div className="pr-12" style={{ wordBreak: 'break-word', fontSize: '11pt' }}>
+
+                                  <strong>TOTAL IN WORDS</strong><br></br>{ress}
+                                </div>
+                              </div>
+                            </div>
+                          </TableCell>
+
+                          <TableCell className="pr-0 " align="center" style={{ border: "1px solid #ccc", fontFamily: "Calibri", wordBreak: 'break-word', fontSize: '14pt', fontweight: 1000 }} colspan={3}>
+
+                          المجموع الكلي <br></br>
+                              GRAND TOTAL
+                          </TableCell>
+                      
+                          <TableCell className="pl-0 " align="right" style={{ border: "1px solid #ccc", width: "500px", fontFamily: "Calibri", fontSize: '14pt' }} colspan={2}>
+
+                            <div>
+                              <div style={{ float: "left" }} className="pl-10">SAR</div>
+                              <div style={{ float: "right" }}>
+                             {parseFloat(net_amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+
+                              </div>
+                              <div style={{ clear: "left" }} />
+                            </div>
+
+                          </TableCell>
+                        </TableRow>
+
+                      </TableBody>
+                    </Table>
+                  </div></>:<> <div className="px-4 mb-2 pl-4 pt-4 flex justify-between" id="table">
                     <Table style={{ width: "100%", fontSize: '10pt', border: "none", fontFamily: 'Calibri',zIndex:'1000' }} className="pl-4" id="table" >
                       <TableHead style={{ backgroundColor: '#1d2257', display: 'table-row-group' }}>
                         <TableRow style={{ pageBreakInside: 'avoid' }} id="table">
@@ -1746,7 +2095,10 @@ let sizepage;
 
                       </TableBody>
                     </Table>
-                  </div>
+                  </div></>}
+                  
+                  {/* ----------------contracting quote----------- */}
+                 
                   <div class='onepage' style={{pageBreakInside: 'avoid',
                 //  pageBreakAfter: 'always', pageBreakBefore: 'always'
                 }}>
@@ -1773,25 +2125,25 @@ let sizepage;
                             <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
 
                               <td style={{ fontSize: '11pt', color: '#1d2257', height: 20 }}>
-                                <Icon style={{ fontSize: 16, color: '#1d2257', paddingTop: 2 }} >timelapse</Icon> Quotation Validity
+                                <Icon style={{ fontSize: 12, color: '#1d2257', paddingTop: 0 }} >timelapse</Icon> Quotation Validity
                               </td>
                               <td className="pl-4">{validity}</td>
                             </tr>
                             <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
-                              <td ><Icon style={{ fontSize: 16, color: '#1d2257', paddingTop: 2 }}>monetization_on</Icon> Payment Terms  </td>
+                              <td ><Icon style={{ fontSize: 12, color: '#1d2257', paddingTop: 0 }}>monetization_on</Icon> Payment Terms  </td>
                               <td className="pl-4">{payment_terms}</td>
                             </tr>
                             <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
-                              <td><Icon style={{ fontSize: 16, color: '#1d2257', paddingTop: 2 }} >verified_user</Icon> Warranty </td>
+                              <td><Icon style={{ fontSize: 12, color: '#1d2257', paddingTop: 0 }} >verified_user</Icon> Warranty </td>
                               <td className="pl-4">{warranty}</td>
                             </tr>
                             <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
-                              <td ><Icon style={{ fontSize: 16, color: '#1d2257', paddingTop: 2 }} >watch_later</Icon> Delivery Time </td>
+                              <td ><Icon style={{ fontSize: 12, color: '#1d2257', paddingTop: 0 }} >watch_later</Icon> Delivery Time </td>
                               <td className="pl-4">{delivery_time}</td>
                             </tr>
 
                             <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
-                              <td ><Icon style={{ fontSize: '11pt', color: '#1d2257' }} className="pt-1">local_shipping</Icon> Inco-Term </td>
+                              <td ><Icon style={{ fontSize: 12, color: '#1d2257', paddingTop: 1 }} >local_shipping</Icon> Inco-Term </td>
                               <td className="pl-4">{inco_terms}</td>
                             </tr>
                           </p>
@@ -1828,7 +2180,7 @@ let sizepage;
                       <div className="viewer__order-info px-4 mb-2 flex justify-between">
                         <div >
                           <h5>We trust our offer falls in line with your requirements. For any clarification please contact under signed.</h5>
-
+<br />
                           <h5>Best Regards,</h5>
                           <tr style={{ height: 5, fontSize: '11pt', textAlign: 'left' }}>
                             <td style={{ height: 'auto !important', fontWeight: 1000 }}>{sign[0]?.name}</td>

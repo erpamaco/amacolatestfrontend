@@ -44,6 +44,12 @@ const QuoteRoutes = [
     path: navigatePath+"/Newquoteanalysis/",
     component: React.lazy(() => import("./NewQuoteanalysis"))
   },
+
+// -----FOR CONTRACTING QUOTATION
+  {
+    path: navigatePath+"/Newquoteanalysis2/",
+    component: React.lazy(() => import("./NewQuoteanalysis2"))
+  },
   {
     path: navigatePath+"/QuickQuote/",
     component: React.lazy(() => import("../sales/quoate-form/QuickQuote"))
