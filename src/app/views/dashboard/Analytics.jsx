@@ -408,7 +408,7 @@ const Analytics = () => {
         return parseFloat(item).toFixed(2);
       });
       setdataReceipt(receiptfinalArray);
-      setmaxVal(Math.max(...receiptfinalArray));
+      // setmaxVal(Math.max(...receiptfinalArray));
     } else {
       /*else data not exists update the array value to 0 */
 
@@ -575,7 +575,7 @@ const Analytics = () => {
         return parseFloat(item).toFixed(2);
       });
       setdataReceipt(receiptfinalArray);
-      setmaxVal(Math.max(...receiptfinalArray));
+      // setmaxVal(Math.max(...receiptfinalArray));
     } else {
       /*else data not exists update the array value to 0 */
 
@@ -744,7 +744,7 @@ const Analytics = () => {
       });
       // console.log("yyy",receiptfinalArray)
       setdataExpense(receiptfinalArray);
-      setmaxVal(Math.max(...receiptfinalArray));
+      // setmaxVal(Math.max(...receiptfinalArray));
     } else {
       /*else data not exists update the array value to 0 */
       // console.log("elses")
@@ -913,7 +913,7 @@ const Analytics = () => {
         return parseFloat(item).toFixed(2);
       });
       setdataExpense(receiptfinalArray);
-      setmaxVal(Math.max(...receiptfinalArray));
+      // setmaxVal(Math.max(...receiptfinalArray));
     } else {
       /*else data not exists update the array value to 0 */
 

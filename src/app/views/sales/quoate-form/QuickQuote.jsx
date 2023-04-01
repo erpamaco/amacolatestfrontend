@@ -273,6 +273,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
   }, []);
   const [catid, setcatid] = useState("");
   const [subject, setsubject] = useState("");
+  const [subject2, setsubject2] = useState('Thank you for requesting us for the quotation of below mentioned items, please find our best price for the supply of requested items. We look forward for our valued P.O.');
   const [productprice, setproductprice] = useState([]);
   const formData = new FormData();
   const filter = createFilterOptions();
@@ -1050,6 +1051,7 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
     formData.append("notes", JSON.stringify(testArr));
     formData.append("bank_id", bank_id);
     formData.append("subject", subject);
+    formData.append("subject2", subject2);
     formData.append("rfq_no", rfq_no ? rfq_no : " ");
     formData.append("transport", transport);
     formData.append("other", other);
@@ -1811,6 +1813,20 @@ const QuickQuote = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 errorMessages={["this field is required"]}
               />
             </div>
+            <TextValidator
+                label="Quotation Description"
+                className="mb-4 ml-4 mr-4"
+                type="text"
+                variant="outlined"
+                size="small"
+                style={{ width: '1334px'}}
+                onChange={e => setsubject2(e.target.value)
+                }
+                value={subject2}
+                validators={["required"]}
+                errorMessages={["this field is required"]}
+              />
+
 
             <Divider />
 

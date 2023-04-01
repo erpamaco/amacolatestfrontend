@@ -191,11 +191,13 @@ const Master = ({
       setresponse_data(data)
       var sumTotal = 0.0
       var sumVat = 0.0
+      var sumSubtotal = 0.0
        sumTotal = data.reduce((initial, cal) => initial = initial + parseFloat(cal.amount), 0) ? data.reduce((initial, cal) => initial = initial + parseFloat(cal.amount), 0) : 0.00
       settotal(sumTotal)
       sumVat = data.reduce((initial, cal) => initial = initial + parseFloat(cal.tax), 0) ? data.reduce((initial, cal) => initial = initial + parseFloat(cal.tax), 0) : 0.00
       setvattotal(sumVat)
-      setsubtotal(sumTotal - sumVat)
+      sumSubtotal = data.reduce((initial, cal) => initial = initial + parseFloat(cal.amount - cal.tax), 0) ? data.reduce((initial, cal) => initial = initial + parseFloat(cal.amount - cal.tax), 0) : 0.00
+      setsubtotal(sumSubtotal)
       setarr_length(result.length);
       console.log("myArr.length",result.length)
 
@@ -273,6 +275,11 @@ const Master = ({
 
     sumVat = result.reduce((initial, cal) => initial = initial + parseFloat(cal.tax), 0)
     setvattotal(sumVat)
+
+    var sumSubtotal = 0.0;
+
+    sumSubtotal = result.reduce((initial, cal) => initial = initial + parseFloat(cal.amount - cal.tax), 0)
+    setsubtotal(sumSubtotal)
     var date2 = new Date(fDate);
 
 

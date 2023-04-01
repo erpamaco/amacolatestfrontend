@@ -36,7 +36,7 @@ const StatCards = ({years,eDate}) => {
       url.get("stateCard").then(({ data }) => {
         setsalesCount(data?.invoice?.filter(obj => (obj.div_id == localStorage.getItem('division') && obj.approve == '1' && moment(obj.issue_date).format('MMM YYYY')==eDate)).length)
         
-        var exp = data?.expense?.filter(obj => obj.div_id == localStorage.getItem('division')&&moment(obj.created_at).format('MMM YYYY')==eDate)?.reduce((a, v) => a = a + parseFloat(v?.amount), 0);
+        var exp = data?.expense?.filter(obj => obj.div_id == localStorage.getItem('division')&&moment(obj.issue_date).format('MMM YYYY')==eDate)?.reduce((a, v) => a = a + parseFloat(v?.amount), 0);
         setExpense(exp)
         
         
@@ -56,7 +56,7 @@ const StatCards = ({years,eDate}) => {
         var revenue = result?.filter(obj => obj.div_id == localStorage.getItem('division')&&moment(obj.created_at).format('MMM YYYY')==eDate)?.reduce((a, v) => a = a + parseFloat(v?.grand_total), 0);
         setrevenueCount(revenue)
         
-        setRec(data.rec?.filter(obj => obj.division_id == localStorage.getItem('division') && (moment(obj.created_at).format('MMM YYYY') == eDate)).reduce((total, currentValue)=> total = parseFloat(total) + parseFloat(currentValue.paid_amount),0))
+        setRec(data.rec?.filter(obj => obj.division_id == localStorage.getItem('division') && (moment(obj.issue_date).format('MMM YYYY') == eDate)).reduce((total, currentValue)=> total = parseFloat(total) + parseFloat(currentValue.paid_amount),0))
         setPo(data.po?.filter(obj => obj.delete == 0 && obj.div_id == localStorage.getItem('division') && (moment(obj.created_at).format('MMM YYYY') == eDate)).reduce((total, currentValue)=> total = parseFloat(total) + parseFloat(currentValue.net_amount),0))
         
   
@@ -76,7 +76,7 @@ const StatCards = ({years,eDate}) => {
     url.get("stateCard").then(({ data }) => {
       setsalesCount(data?.invoice?.filter(obj => (obj.div_id == localStorage.getItem('division') && obj.approve == '1' && moment(obj.issue_date).format('YYYY')==years)).length)
       
-      var exp = data?.expense?.filter(obj => obj.div_id == localStorage.getItem('division')&&moment(obj.created_at).format('YYYY')==years)?.reduce((a, v) => a = a + parseFloat(v?.amount), 0);
+      var exp = data?.expense?.filter(obj => obj.div_id == localStorage.getItem('division')&&moment(obj.issue_date).format('YYYY')==years)?.reduce((a, v) => a = a + parseFloat(v?.amount), 0);
       setExpense(exp)
       
       
@@ -96,7 +96,7 @@ const StatCards = ({years,eDate}) => {
       var revenue = result?.filter(obj => obj.div_id == localStorage.getItem('division')&&moment(obj.created_at).format('YYYY')==years)?.reduce((a, v) => a = a + parseFloat(v?.grand_total), 0);
       setrevenueCount(revenue)
 
-      setRec(data.rec?.filter(obj => obj.division_id == localStorage.getItem('division') && (moment(obj.created_at).format('YYYY') == years)).reduce((total, currentValue)=> total = parseFloat(total) + parseFloat(currentValue.paid_amount),0))
+      setRec(data.rec?.filter(obj => obj.division_id == localStorage.getItem('division') && (moment(obj.issue_date).format('YYYY') == years)).reduce((total, currentValue)=> total = parseFloat(total) + parseFloat(currentValue.paid_amount),0))
       setPo(data.po?.filter(obj => obj.delete == 0 && obj.div_id == localStorage.getItem('division') && (moment(obj.created_at).format('YYYY') == years)).reduce((total, currentValue)=> total = parseFloat(total) + parseFloat(currentValue.net_amount),0))
       
 

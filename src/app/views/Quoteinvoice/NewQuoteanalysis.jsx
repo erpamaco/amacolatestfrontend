@@ -228,7 +228,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
   const [oinco, setOinco] = useState('')
   const [bank_id, setbank_id] = useState('');
   const [subject, setsubject] = useState('');
-  const [subject2, setsubject2] = useState('');
+  const [subject2, setsubject2] = useState('Thank you for requesting us for the quotation of below mentioned items, please find our best price for the supply of requested items. We look forward for our valued P.O.');
   const [rfq_no, setrfq_no] = useState('');
   const [transport, settransport] = useState('0.00');
   const [other, setother] = useState('0.00');
@@ -1713,19 +1713,20 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 value={subject}
                 validators={["required"]}
                 errorMessages={["this field is required"]}
-              />         <TextValidator
+              />       </div>
+                <TextValidator
                 label="Quotation Description"
-                className="mb-4"
+                className="mb-4 ml-4 mr-4"
                 type="text"
                 variant="outlined"
                 size="small"
-                style={{ width: 360 ,marginLeft:"10px"}}
+                style={{ width: '1334px'}}
                 onChange={e => setsubject2(e.target.value)
                 }
                 value={subject2}
                 validators={["required"]}
                 errorMessages={["this field is required"]}
-              /></div>
+              />
 
 
 

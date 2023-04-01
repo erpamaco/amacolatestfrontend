@@ -1790,18 +1790,7 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                   validators={["required"]}
                   errorMessages={["this field is required"]}
                 />
-                 <TextValidator
-                  label="Quotation Description"
-                  className="mb-4"
-                  type="text"
-                  variant="outlined"
-                  size="small"
-                  style={{ width: 450 ,marginLeft:'10px'}}
-                  onChange={(e) => setsubject2(e.target.value)}
-                  value={subject2 == "null" || subject2 == null ? null : subject2}
-                  validators={["required"]}
-                  errorMessages={["this field is required"]}
-                />
+                
               </div>
               <div>
                 <TextValidator
@@ -1818,6 +1807,18 @@ const InvoiceEditor = ({ isNewInvoice, toggleInvoiceEditor }) => {
                 />
               </div>
             </div>
+             <TextValidator
+                  label="Quotation Description"
+                  className="mb-4 ml-4"
+                  type="text"
+                  variant="outlined"
+                  size="small"
+                  style={{ width: '1334px'}}
+                  onChange={(e) => setsubject2(e.target.value)}
+                  value={subject2 == "null" || subject2 == null ? null : subject2}
+                  validators={["required"]}
+                  errorMessages={["this field is required"]}
+                />
             <Divider />
 
             <Table className="mb-4">

@@ -1387,9 +1387,8 @@ let sizepage;
                       <TableRow className="pl-4">
                         {prefix ? (prefix === "Mr" ? "Dear Sir," : "Dear Madam,") : 'Dear Sir/Madam,'}
                         <br></br>
-                        {qdesc !== null ? qdesc : <>Thank you for requesting us for the quotation of below mentioned items, please find our best price for the supply of requested
-                        items.<br></br>
-                        We look forward for our valued P.O.</>}
+                        {qdesc !== null && qdesc !== 'null' &&  qdesc ? qdesc : <>Thank you for requesting us for the quotation of below mentioned items, please find our best price for the supply of requested
+                        items. We look forward for our valued P.O.</>}
                         
                       </TableRow>
                     </Table>

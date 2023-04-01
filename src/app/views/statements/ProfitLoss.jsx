@@ -254,7 +254,9 @@ function ProfitLoss() {
         'OPERATIONAL EXPENSES' :caluclateamount(arrExpense, item, "Operational Expenses"),
         'MARKETING EXPENSES' : caluclateamount(arrExpense, item, "Marketing Expenses"),
         'GOV.EXPENSES' : caluclateamount(arrExpense, item, "Governmental Expenses"),
-        'PURCHASE EXPENSES' : caluclateamount(arrExpense, item, "PURCHASE"),
+        'TRANSPORT EXPENSES' : caluclateamount(arrExpense, item, "Transport Expenses"),
+        'SALARY' : caluclateamount(arrExpense, item, "Salary"),
+        'SALES PURCHASE' : caluclateamount(arrExpense, item, "PURCHASE"),
         'SALES INCOMING' : caluclateamount(salesExpense, item, "SALES"),
 
         
@@ -520,7 +522,7 @@ function ProfitLoss() {
                     <TableHead style={{ backgroundColor: '#1d2257', display: 'table-row-group' }}>
                       <TableRow>
                         {/* <TableCell colSpan={1}></TableCell> */}
-                        <TableCell colSpan={6} style={{ color: '#fff', textAlign: 'center', fontSize: 20 }}>
+                        <TableCell colSpan={9} style={{ color: '#fff', textAlign: 'center', fontSize: 20 }}>
                           SALES & EXPENSE REPORT - {moment(year).format('YYYY')} (QUATER {quater})
                         </TableCell>
 
@@ -529,11 +531,15 @@ function ProfitLoss() {
                     <TableHead style={{ backgroundColor: '#1d2257', display: 'table-row-group' }}>
                       <TableRow style={{ pageBreakInside: 'avoid' }} id="table">
                         <TableCell className="pr-0" style={{ border: "1px solid #ccc", width: "50px", fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">MONTH</TableCell>
-                        <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">OPERATIONAL EXPENSES</TableCell>
+                        <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">ADMIN   &nbsp;&nbsp;&nbsp;EXPENSES</TableCell>
                         <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">MARKETING EXPENSES</TableCell>
+                        <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">GOVERNMENT EXPENSES</TableCell>
 
-                        <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">GOV. EXPENSES</TableCell>
-                        <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">PURCHASE EXPENSES</TableCell>
+                        <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">TRANSPORT   EXPENSES</TableCell>
+                        <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">SALARY</TableCell>
+                        <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">SALES PURCHASES</TableCell>
+                        <TableCell className="px-0" style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">DELIVERY  &nbsp;&nbsp;EXPENSES</TableCell>
+             
 
 
 
@@ -558,11 +564,23 @@ function ProfitLoss() {
                               {caluclateamount(arrExpense, item, "Governmental Expenses")}
                             </TableCell>
                             <TableCell className="pr-4" align="right" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                              {caluclateamount(arrExpense, item, "Transport Expenses")}
+                            </TableCell>
+                            <TableCell className="pr-4" align="right" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                              {caluclateamount(arrExpense, item, "Salary")}
+                            </TableCell>
+
+                           
+                            <TableCell className="pr-4" align="right" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
                               {caluclateamount(arrExpense, item, "PURCHASE")}
+                            </TableCell>
+                            <TableCell className="pr-4" align="right" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
+                              {caluclateamount(arrExpense, item, "Delivery Expenses")}
                             </TableCell>
                             <TableCell className="pr-4" align="right" style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt' }} >
                               {caluclateamount(salesExpense, item, "SALES")}
                             </TableCell>
+                          
 
 
 
@@ -637,8 +655,26 @@ function ProfitLoss() {
                           })}
                         </TableCell>
                         <TableCell className="pr-4" align="right" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', fontWeight: 1000, color: "white" }} >
+                          {caluclateTotal(filter_month, arrExpense, "Transport Expenses").toLocaleString(undefined, {
+                            minimumFractionDigits: 2
+                          })}
+                        </TableCell>
+                        <TableCell className="pr-4" align="right" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', fontWeight: 1000, color: "white" }} >
+                          {caluclateTotal(filter_month, arrExpense, "Salary").toLocaleString(undefined, {
+                            minimumFractionDigits: 2
+
+                          })}
+                        </TableCell>
+                        <TableCell className="pr-4" align="right" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', fontWeight: 1000, color: "white" }} >
                           {caluclateTotal(filter_month, arrExpense, "PURCHASE").toLocaleString(undefined, {
                             minimumFractionDigits: 2
+
+                          })}
+                        </TableCell>
+                        <TableCell className="pr-4" align="right" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', fontWeight: 1000, color: "white" }} >
+                          {caluclateTotal(filter_month, arrExpense, "Delivery Expenses").toLocaleString(undefined, {
+                            minimumFractionDigits: 2
+
                           })}
                         </TableCell>
                         <TableCell className="pr-4" align="right" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', fontWeight: 1000, color: "white" }} >
@@ -647,6 +683,7 @@ function ProfitLoss() {
 
                           })}
                         </TableCell>
+                        
 
 
 
@@ -656,7 +693,7 @@ function ProfitLoss() {
                         <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', fontWeight: 1000 }} >
                           TOTAL SALES
                         </TableCell>
-                        <TableCell className="pr-0" align="center" colspan={5} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', fontWeight: 1000 }} >
+                        <TableCell className="pr-4" align="right" colspan={8} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', fontWeight: 1000 }} >
                           {caluclateTotal(filter_month, salesExpense, "SALES").toLocaleString(undefined, {
                             minimumFractionDigits: 2
 
@@ -668,7 +705,7 @@ function ProfitLoss() {
                         <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', fontWeight: 1000 }} >
                           TOTAL PURCHASES
                         </TableCell>
-                        <TableCell className="pr-0" align="center" colspan={5} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', fontWeight: 1000 }} >
+                        <TableCell className="pr-4" align="right" colspan={8} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', fontWeight: 1000 }} >
                         {caluclateTotalExpense(arrExpense, filter_month, "PURCHASE").toLocaleString(undefined, {
                             minimumFractionDigits: 2
 
@@ -678,33 +715,34 @@ function ProfitLoss() {
                       </TableRow>
                       <TableRow style={{ border: "1px solid #ccc", pageBreakInside: 'avoid', backgroundColor: '#cccccc85', fontWeight: 1000 }}>
                         <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', fontWeight: 1000 }} >
-                          OTHER EXPENSES
-                        </TableCell>
-                        <TableCell className="pr-0" align="center" colspan={5} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', fontWeight: 1000 }} >
-                          {caluclateTotalExpense(arrExpense, filter_month, "Operational Expenses", "Governmental Expenses", "Marketing Expenses").toLocaleString(undefined, {
-                            minimumFractionDigits: 2
-
-                          })}
-                        </TableCell>
-                      </TableRow>
-                      <TableRow style={{ border: "1px solid #ccc", pageBreakInside: 'avoid', backgroundColor: '#cccccc85', fontWeight: 1000 }}>
-                        <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', fontWeight: 1000 }} >
                           GROSS PROFIT
                         </TableCell>
-                        <TableCell className="pr-0" align="center" colspan={5} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', fontWeight: 1000 }} >
+                        <TableCell className="pr-4" align="right" colspan={8} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', fontWeight: 1000 }} >
                           {(caluclateTotal(filter_month, salesExpense, "SALES") - caluclateTotal(filter_month, arrExpense, "PURCHASE")).toLocaleString(undefined, {
                             minimumFractionDigits: 2
                           })}
                         </TableCell>
                       </TableRow>
+                      <TableRow style={{ border: "1px solid #ccc", pageBreakInside: 'avoid', backgroundColor: '#cccccc85', fontWeight: 1000 }}>
+                        <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', fontWeight: 1000 }} >
+                          OTHER EXPENSES
+                        </TableCell>
+                        <TableCell className="pr-4" align="right" colspan={8} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', fontWeight: 1000 }} >
+                          {caluclateTotalExpense(arrExpense, filter_month, "Operational Expenses", "Governmental Expenses", "Marketing Expenses","Salary","Delivery Expenses","Transport Expenses").toLocaleString(undefined, {
+                            minimumFractionDigits: 2
+
+                          })}
+                        </TableCell>
+                      </TableRow>
+                     
                       <TableRow style={{ border: "1px solid #ccc", pageBreakInside: 'avoid', backgroundColor: '#1d2257', fontWeight: 1000 }}>
                         <TableCell className="pr-0" align="center" colspan={1} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', fontWeight: 1000, color: 'white' }} >
                           NET PROFIT
 
                         </TableCell>
-                        <TableCell id="net" className="pr-0" align="center" colspan={5} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '15pt', fontWeight: 1000, color: 'white' }} >
+                        <TableCell id="net" className="pr-4" align="right" colspan={8} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '15pt', fontWeight: 1000, color: 'white' }} >
 
-                          {(caluclateTotal(filter_month, salesExpense, "SALES") - caluclateTotalExpense(arrExpense, filter_month, "Operational Expenses", "Governmental Expenses", "Marketing Expenses", "PURCHASE")).toLocaleString(undefined, {
+                          {(caluclateTotal(filter_month, salesExpense, "SALES") - caluclateTotalExpense(arrExpense, filter_month, "Operational Expenses", "Governmental Expenses", "Marketing Expenses", "PURCHASE","Transport Expenses","Salary","Delivery Expenses")).toLocaleString(undefined, {
                             minimumFractionDigits: 2
 
                           })}
@@ -712,7 +750,7 @@ function ProfitLoss() {
                         </TableCell>
                       </TableRow>
                       <TableRow>
-                        <TableCell className="pr-0" align="center" colspan={6} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', fontWeight: 1000, color: 'green' }} >
+                        <TableCell className="pr-0" align="center" colspan={9} style={{ border: "1px solid #ccc", fontFamily: "Calibri", fontSize: '11pt', fontWeight: 1000, color: 'green' }} >
 
                         </TableCell>
                       </TableRow>

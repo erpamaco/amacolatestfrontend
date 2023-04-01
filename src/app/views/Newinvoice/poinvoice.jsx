@@ -1195,7 +1195,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                 // border: "1px solid #ccc",
                                 width: "50px",
                                 fontFamily: "Calibri",
-                                color: "#fff",
+                                color: "transparent",
                                 fontWeight: "1000",
                                 fontSize: 16,
                               }}
@@ -1212,7 +1212,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                               style={{
                                 // border: "1px solid #ccc",
                                 fontFamily: "Calibri",
-                                color: "#fff",
+                                color: "transparent",
                                 fontWeight: "1000",
                                 fontSize: 16,
                               }}
@@ -1228,7 +1228,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                 // border: "1px solid #ccc",
                                 fontFamily: "Calibri",
                                 width: 90,
-                                color: "#fff",
+                                color: "transparent",
                                 fontWeight: "1000",
                                 fontSize: 16,
                               }}
@@ -1241,7 +1241,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                               style={{
                                 // border: "1px solid #ccc",
                                 fontFamily: "Calibri",
-                                color: "#fff",
+                                color: "transparent",
                                 fontWeight: "1000",
                                 fontSize: 16,
                                 width: "50px",
@@ -1257,7 +1257,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                 // border: "1px solid #ccc",
                                 width: 100,
                                 fontFamily: "Calibri",
-                                color: "#fff",
+                                color: "transparent",
                                 fontWeight: "1000",
                                 fontSize: 16,
                               }}
@@ -1271,7 +1271,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                 // border: "1px solid #ccc",
                                 width: 100,
                                 fontFamily: "Calibri",
-                                color: "#fff",
+                                color: "transparent",
                                 fontWeight: "1000",
                                 fontSize: 16,
                               }}
