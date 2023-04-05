@@ -1403,9 +1403,10 @@ let sizepage;
                           <TableCell className="pr-0" colspan={1} style={{ border: "1px solid #ccc", width: "50px", fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center"> <span style={{ fontSize: 16 }}>رقم</span>
                               <br></br>S.No.</TableCell>
                           {
-                            localStorage.getItem('division') == 3 ? <></> :localStorage.getItem('division') == 5 ? <>
+                            localStorage.getItem('division') == 5 || localStorage.getItem('division') == 3 ? <>
                               {/* <TableCell className="px-0" colspan={2} style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">ITEM</TableCell> */}
-                              <TableCell className="px-0" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">RFQ DESCRIPTION</TableCell>
+                              <TableCell className="px-0" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center"><span style={{ fontSize: 16 }}>وصف </span>
+                              <br></br>RFQ DESCRIPTION</TableCell>
 
                             </>:<>
                               <TableCell className="px-0" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center"> <span style={{ fontSize: 16 }}>وصف </span>
@@ -1580,7 +1581,7 @@ let sizepage;
                         <TableRow style={{ pageBreakInside: 'avoid' }} id="table">
                           <TableCell className="pr-0" colspan={1} style={{  width: "50px", fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">S.No.</TableCell>
                           {
-                            localStorage.getItem('division') == 3 ? <></> :localStorage.getItem('division') == 5 ?  <>
+                            localStorage.getItem('division') == 5 ||  localStorage.getItem('division') == 3?  <>
                               {/* <TableCell className="px-0" colspan={2} style={{  fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">ITEM</TableCell> */}
                               <TableCell className="px-0" colspan={4} style={{  fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">RFQ DESCRIPTION</TableCell>
 
@@ -1607,7 +1608,7 @@ let sizepage;
                       </TableHead>
                       <TableBody>
                       <TableRow style={{ border: "1px solid #ccc", pageBreakInside: 'avoid', pageBreakAfter: 'always', pageBreakBefore: 'always' }}>
-                          <TableCell className="pl-0 " align="center" style={{ border: "1px solid #ccc", fontFamily: "Calibri" }} rowspan={3} colspan={localStorage.getItem('division') == 3 ? 5 : localStorage.getItem('division') == 5 ? 9 : 11}>
+                          <TableCell className="pl-0 " align="center" style={{ border: "1px solid #ccc", fontFamily: "Calibri" }} rowspan={3} colspan={localStorage.getItem('division') == 5 || localStorage.getItem('division') == 3? 9 : 11}>
                             <div className="px-4 flex justify-between" style={{ fontFamily: "Calibri" }}>
                               <div className="flex">
                                 <div className="pr-12">
@@ -1703,7 +1704,7 @@ let sizepage;
                         </TableRow>
 
                         <TableRow style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
-                          <TableCell colspan={localStorage.getItem('division') == 3 ? 5 : localStorage.getItem('division') == 5 ? 9 : 11} style={{ border: "1px solid #ccc", fontFamily: "Calibri" }} className="pl-0 capitalize">
+                          <TableCell colspan={ localStorage.getItem('division') == 5 || localStorage.getItem('division') == 3 ? 9 : 11} style={{ border: "1px solid #ccc", fontFamily: "Calibri" }} className="pl-0 capitalize">
                             <div className="px-4 flex justify-between">
                               <div className="flex">
                                 <div className="pr-12" style={{ wordBreak: 'break-word', fontSize: '11pt' }}>
@@ -1743,7 +1744,7 @@ let sizepage;
                           <TableCell className="pr-0" colspan={1} style={{ border: "1px solid #ccc", width: "50px", fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center"> <span style={{ fontSize: 16 }}>رقم</span>
                               <br></br>S.No.</TableCell>
                           {
-                            localStorage.getItem('division') == 3 ? <></> :localStorage.getItem('division') == 5 ? <>
+                          localStorage.getItem('division') == 5  || localStorage.getItem('division') == 3  ? <>
                               {/* <TableCell className="px-0" colspan={2} style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">ITEM</TableCell> */}
                               <TableCell className="px-0" colspan={4} style={{ border: "1px solid #ccc", fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">RFQ DESCRIPTION</TableCell>
 
@@ -1938,7 +1939,7 @@ let sizepage;
                         <TableRow style={{ pageBreakInside: 'avoid' }} id="table">
                           <TableCell className="pr-0" colspan={1} style={{  width: "50px", fontFamily: "Calibri", color: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">S.No.</TableCell>
                           {
-                            localStorage.getItem('division') == 3 ? <></> :localStorage.getItem('division') == 5 ?  <>
+                            localStorage.getItem('division') == 5 ||  localStorage.getItem('division') == 3 ?  <>
                               {/* <TableCell className="px-0" colspan={2} style={{  fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">ITEM</TableCell> */}
                               <TableCell className="px-0" colspan={4} style={{  fontFamily: "Calibri", color: '#fff', fontColor: '#fff', fontWeight: 1000, fontSize: '11pt' }} align="center">RFQ DESCRIPTION</TableCell>
 
@@ -1965,7 +1966,7 @@ let sizepage;
                       </TableHead>
                       <TableBody>
                       <TableRow style={{ border: "1px solid #ccc", pageBreakInside: 'avoid', pageBreakAfter: 'always', pageBreakBefore: 'always' }}>
-                          <TableCell className="pl-0 " align="center" style={{ border: "1px solid #ccc", fontFamily: "Calibri" }} rowspan={3} colspan={localStorage.getItem('division') == 3 ? 5 : localStorage.getItem('division') == 5 ? 9 : 11}>
+                          <TableCell className="pl-0 " align="center" style={{ border: "1px solid #ccc", fontFamily: "Calibri" }} rowspan={3} colspan={localStorage.getItem('division') == 5 || localStorage.getItem('division') == 3  ? 9 : 11}>
                             <div className="px-4 flex justify-between" style={{ fontFamily: "Calibri" }}>
                               <div className="flex">
                                 <div className="pr-12">
@@ -2061,7 +2062,7 @@ let sizepage;
                         </TableRow>
 
                         <TableRow style={{ border: "1px solid #ccc", pageBreakInside: 'avoid' }}>
-                          <TableCell colspan={localStorage.getItem('division') == 3 ? 5 : localStorage.getItem('division') == 5 ? 9 : 11} style={{ border: "1px solid #ccc", fontFamily: "Calibri" }} className="pl-0 capitalize">
+                          <TableCell colspan={localStorage.getItem('division') == 5 || localStorage.getItem('division') == 3 ? 9 : 11} style={{ border: "1px solid #ccc", fontFamily: "Calibri" }} className="pl-0 capitalize">
                             <div className="px-4 flex justify-between">
                               <div className="flex">
                                 <div className="pr-12" style={{ wordBreak: 'break-word', fontSize: '11pt' }}>
@@ -2146,7 +2147,7 @@ let sizepage;
                               <td className="pl-4">{inco_terms}</td>
                             </tr>
                           </p>
-                          <p>
+                          <div>
 
 
                             <td style={{ color: "red" }} colspan={2}>NOTES</td>
@@ -2166,7 +2167,7 @@ let sizepage;
                             {/* <p style={{   fontSize:'11pt'}}>
              Inco-Term {inco_terms}
             </p> */}
-                          </p>
+                          </div>
                         </div>
 
                         <div>
@@ -2175,7 +2176,8 @@ let sizepage;
                         </div>
                       </div>
                     </div>
-                    <p>
+                    <br />
+                    <div>
                       <div className="viewer__order-info px-4 mb-2 flex justify-between">
                         <div >
                           <h5>We trust our offer falls in line with your requirements. For any clarification please contact under signed.</h5>
@@ -2211,7 +2213,7 @@ let sizepage;
 
                       </div>
                       <br></br>
-                    </p>
+                    </div>
                   </div>
                 </div>
 
