@@ -1,0 +1,1 @@
+(this["webpackJsonpmatx-react"]=this["webpackJsonpmatx-react"]||[]).push([[267],{3559:function(t,e,n){"use strict";n.r(e),n.d(e,"default",(function(){return u}));var r=n(0),a=n.n(r),c=n(31);function u(){var t=Object(c.i)();return a.a.createElement("h1",null," Your Id is ",t.id)}}}]);
